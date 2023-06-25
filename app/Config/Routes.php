@@ -35,6 +35,7 @@ $routes->get('/inventory', 'Inventory::index');
 $routes->get('/reports', 'Reports::index');
 $routes->get('/transaction', 'Transaction::index');
 $routes->get('/login', 'Login::index');
+$routes->post('/login', 'Login::login');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
