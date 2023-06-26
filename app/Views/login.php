@@ -26,28 +26,35 @@
         <div class="container bg-white rounded">
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-md-9 col-lg-6 col-xl-5 image-container">
-                    <img src="/rajlogo.png" class="img-fluid" alt="Raj Image">
+                    <img src="/picture/rajlogo.png" class="img-fluid" alt="Raj Image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 p-3">
-                    <form>
+                    <form id="loginForm" action="<?php echo base_url('login'); ?>" method="POST">
                         <div class="text-center mb-5">
                             <p class="lead mb-0 me-3 fs-1">Sales and Inventory System</p>
                         </div>
+                        <div class="container-fluid login-error">
+                            <?php if (isset($data)): ?>
+                                <div class="alert alert-danger">
+                                    <?= $data ?>
+                                </div>
+                            <?php endif ?>
+                        </div>
                         <div class="form-outline mb-4">
-                            <label class="form-label" for="form3Example3">Email address</label>
-                            <input type="email" id="form3Example3" class="form-control form-control"
-                                placeholder="Enter a valid email address" />
+                            <label class="form-label fw-bold" for="form3Example3">Username</label>
+                            <input type="text" name="username" id="form3Example3" class="form-control form-control"
+                                placeholder="Enter username" required />
                         </div>
                         <div class="form-outline mb-3">
-                            <label class="form-label" for="form3Example4">Password</label>
-                            <input type="password" id="form3Example4" class="form-control form-control"
-                                placeholder="Enter password" />
+                            <label class="form-label fw-bold" for="form3Example4">Password</label>
+                            <input type="password" name="password" id="form3Example4" class="form-control form-control"
+                                placeholder="Enter password" required />
                         </div>
                         <div class="d-flex justify-content-end align-items-center">
                             <a href="#" class="text-body">Forgot password?</a>
                         </div>
                         <div class="text-center mt-4 pt-2">
-                            <button type="button" class="btn btn-primary "
+                            <button type="submit" class="btn btn-primary "
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
                         </div>
                     </form>
