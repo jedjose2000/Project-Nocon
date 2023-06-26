@@ -5,6 +5,7 @@ namespace Config;
 use CodeIgniter\Config\BaseConfig;
 use Psr\Log\LogLevel;
 
+
 /**
  * Setup how the exception handler works.
  */
