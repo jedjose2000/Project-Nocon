@@ -1,0 +1,13 @@
+.order-icon {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.dropdown-menu {
+  min-width: 11rem;
+}
+.dropdown-menu[data-bs-popper] {
+  top: 100%;
+  margin-top: 0.125rem;
+  left: -79px;
+}
