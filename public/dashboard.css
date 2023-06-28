@@ -11,3 +11,19 @@
   margin-top: 0.125rem;
   left: -79px;
 }
+
+.category-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.category-description-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.error {
+  font-weight: normal !important;
+}

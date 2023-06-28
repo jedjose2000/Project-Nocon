@@ -17,10 +17,8 @@
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/f38a62f9ed.js" crossorigin="anonymous"></script>
 <script src="plugins/jquery/jquery.min.js"></script>
-
-
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-
+  <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>

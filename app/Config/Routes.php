@@ -35,7 +35,16 @@ $routes->get('/inventory', 'Inventory::index');
 $routes->get('/reports', 'Reports::index');
 $routes->get('/transaction', 'Transaction::index');
 $routes->get('/login', 'Login::index');
+$routes->get('/logout', 'Dashboard::logout');
+$routes->get('/category', 'Category::index');
 $routes->post('/login', 'Login::login');
+$routes->get('/view-category/(:num)', 'Category::viewCategory/$1');
+$routes->post('/addCategory', 'Category::addCategory');
+$routes->post('/checkCategoryNameExists', 'Category::checkCategoryNameExists');
+$routes->post('/checkUpdateCategoryNameExists', 'Category::checkUpdateCategoryNameExists');
+$routes->post('/archiveAllCategory', 'Category::archiveAllCategory');
+$routes->post('/getIDs', 'Category::getID');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
