@@ -17,9 +17,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo base_url('order-list'); ?>" class="nav-link ">
+          <a href="<?php echo base_url('category'); ?>" class="nav-link ">
             <i class="fa-regular fa-rectangle-list order-icon"></i>
-            <p>Order List</p>
+            <p>Category</p>
           </a>
         </li>
       </ul>

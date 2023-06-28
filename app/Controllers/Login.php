@@ -9,6 +9,12 @@ class Login extends BaseController
     {
         $data['data'] = $this->session->message;
         $this->session->remove('message');
+
+        if ($this->session->has("user_id")) {
+
+            return redirect()->to("dashboard");
+        }
+
         return view('login',$data);
     }
     public function login()

@@ -15,7 +15,7 @@
       <li><a class="dropdown-item" href="#changePassModal" data-bs-toggle="modal"><i
             class="fa-solid fa-key me-2"></i>Change
           Password</a></li>
-      <li><a href="<?php echo base_url('login'); ?>" class="text-decoration-none dropdown-item"><i
+      <li><a href="<?php echo base_url('logout'); ?>" class="text-decoration-none dropdown-item"><i
             class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
     </ul>
   </div>
