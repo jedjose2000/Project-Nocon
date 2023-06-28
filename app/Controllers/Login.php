@@ -37,6 +37,7 @@ class Login extends BaseController
     
             $this->session->set("user_id", $user["id"]); //registers user in session
             $this->session->set("user_username", $user["username"]);
+            $this->session->set("user_level", $user["userLevel"]); 
             return redirect()->to("dashboard");
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage();

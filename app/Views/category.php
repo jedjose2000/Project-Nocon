@@ -22,13 +22,18 @@
                         <div>
                             <div class="bg-white m-4 p-4 rounded">
                                 <div class="pb-3 mb-2">
-                                    <button class="btn btn-success" data-bs-toggle="modal"
+                                    <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
+                                        <button class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#categoryModal" id="btnCreateCat"><i
                                             class="fa-solid fa-person-circle-plus me-2"></i>Create Category</button>
-                                    <button class="archiveAllData btn btn-danger flex-end" id="btnArchiveAll"
+                                    <?php endif; ?>
+
+                                    <?php if ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
+                                        <button class="archiveAllData btn btn-danger flex-end" id="btnArchiveAll"
                                         data-bs-toggle="modal" data-bs-target="#archiveAllModal" disabled><i
                                             class="fa-solid fa-person-circle-minus me-2"></i>Archive
                                         Selected</button>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="border p-2 rounded">
                                     <table id="categoryTable" class="display" style="width:100%">
@@ -65,16 +70,45 @@
                                                         <?php echo $row->categoryDescription ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button title="Update Category"
-                                                            class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
-                                                            data-id="<?php echo $row->categoryId ?>"
-                                                            data-bs-target="#categoryModalUpdate" id="btnUpdateCategory"><i
-                                                                class="fa-solid fa-pen"></i></button>
-                                                        <button class="btn btn-outline-danger btnArchiveCategory"
-                                                            title="Archive Category" data-bs-toggle="modal"
-                                                            data-id="<?php echo $row->categoryId ?>"
-                                                            data-bs-target="#archiveCategoryModal"><i
-                                                                class="fa-solid fa-archive"></i></button>
+                                                        <?php if (
+                                                            $permissionChecker->hasPermission('orderListUpdate', 'Update Order')
+                                                            && $permissionChecker->hasPermission('orderListArchive', 'Archive Order')
+                                                        ): ?>
+                                                            <button title="Update Category"
+                                                                class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
+                                                                <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                            <button class="btn btn-outline-danger btnArchiveCategory"
+                                                                title="Archive Category" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#archiveCategoryModal">
+                                                                <i class="fa-solid fa-archive"></i>
+                                                            </button>
+                                                        <?php elseif ($permissionChecker->hasPermission('orderListUpdate', 'Update Order')): ?>
+                                                            <button title="Update Category"
+                                                                class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
+                                                                <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                        <?php elseif ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
+                                                            <button class="btn btn-outline-danger btnArchiveCategory"
+                                                                title="Archive Category" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#archiveCategoryModal">
+                                                                <i class="fa-solid fa-archive"></i>
+                                                            </button>
+                                                        <?php else: ?>
+                                                            <button title="View Category"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#categoryModalView" id="btnViewCategory">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </button>
+                                                        <?php endif; ?>
+
                                                     </td>
                                                 </tr>
                                                 <?php
