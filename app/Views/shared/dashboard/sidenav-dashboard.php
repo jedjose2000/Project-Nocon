@@ -22,6 +22,12 @@
             <p>Category</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url('supplier'); ?>" class="nav-link ">
+            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <p>Supplier</p>
+          </a>
+        </li>
       </ul>
     </nav>
 
