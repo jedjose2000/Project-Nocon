@@ -36,7 +36,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="border p-2 rounded">
-                                    <table id="categoryTable" class="display" style="width:100%">
+                                    <table id="productTable" class="display" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center" data-orderable="false">
@@ -45,8 +45,16 @@
                                                         <label for="selectAll"></label>
                                                     </span>
                                                 </th>
-                                                <th class="text-center">Category Name</th>
+                                                <th class="text-center">Product Name</th>
+                                                <th class="text-center">Brand</th>
+                                                <th class="text-center">Category</th>
+                                                <th class="text-center">Supplier</th>
                                                 <th class="text-center">Description</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-center">Expiration Date</th>
+                                                <th class="text-center">Buy Price</th>
+                                                <th class="text-center">Sell Price</th>
+                                                <th class="text-center">Critical Level Quantity</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -54,20 +62,43 @@
                                             <?php
                                             foreach ($result as $row) {
                                                 ?>
-                                                <tr id="<?php echo $row->categoryId ?>">
+                                                <tr id="<?php echo $row->productId ?>">
                                                     <td class="text-center">
                                                         <span class="custom-checkbox">
                                                             <input type="checkbox" id="data_checkbox" class="data_checkbox"
-                                                                value="<?php echo $row->categoryId; ?>"
-                                                                name="data_checkbox">
+                                                                value="<?php echo $row->productId; ?>" name="data_checkbox">
                                                             <label for="data_checkbox">
                                                         </span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->productName ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->productBrand ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->categoryName ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <?php echo $row->categoryDescription ?>
+                                                        <?php echo $row->supplierName ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->productDescription ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->unit ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->willExpire ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->buyPrice ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->sellPrice ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->clq ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php if (
@@ -76,34 +107,34 @@
                                                         ): ?>
                                                             <button title="Update Category"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-id="<?php echo $row->productId ?>"
                                                                 data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
                                                                 <i class="fa-solid fa-pen"></i>
                                                             </button>
                                                             <button class="btn btn-outline-danger btnArchiveCategory"
                                                                 title="Archive Category" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-id="<?php echo $row->productId ?>"
                                                                 data-bs-target="#archiveCategoryModal">
                                                                 <i class="fa-solid fa-archive"></i>
                                                             </button>
                                                         <?php elseif ($permissionChecker->hasPermission('orderListUpdate', 'Update Order')): ?>
                                                             <button title="Update Category"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-id="<?php echo $row->productId ?>"
                                                                 data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
                                                                 <i class="fa-solid fa-pen"></i>
                                                             </button>
                                                         <?php elseif ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
                                                             <button class="btn btn-outline-danger btnArchiveCategory"
                                                                 title="Archive Category" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-id="<?php echo $row->productId ?>"
                                                                 data-bs-target="#archiveCategoryModal">
                                                                 <i class="fa-solid fa-archive"></i>
                                                             </button>
                                                         <?php else: ?>
                                                             <button title="View Category"
                                                                 class="btn btn-outline-primary btnView" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-id="<?php echo $row->productId ?>"
                                                                 data-bs-target="#categoryModalView" id="btnViewCategory">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
@@ -133,157 +164,6 @@
     </div>
 
 
-    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="categoryModal" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="formCategory">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body px-5">
-                        <div class="mb-4">
-                            <label for="txtCategory" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="txtCategory" name="txtCategory"
-                                placeholder="Enter Category Name" maxlength="40" required>
-                            <div class="invalid-feedback category-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="txtDescription" name="txtDescription" rows="8"
-                                placeholder="Enter Description Here" required></textarea>
-                            <div class="invalid-feedback category-description-error"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btnAddCategory">Add Category</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
-
-
-    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="categoryModalUpdate" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="formCategoryUpdate">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Category</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <input type="hidden" class="form-control" id="txtUpdateCategoryId" name="txtUpdateCategoryId"
-                        placeholder="Enter Category Name" maxlength="40">
-                    <div class="modal-body px-5">
-                        <div class="mb-4">
-                            <label for="txtUpdateCategory" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="txtUpdateCategory" name="txtUpdateCategory"
-                                placeholder="Enter Category Name" maxlength="40" required>
-                            <div class="invalid-feedback category-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtUpdateDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="txtUpdateDescription" name="txtUpdateDescription"
-                                rows="8" placeholder="Enter Description Here" required></textarea>
-                            <div class="invalid-feedback category-description-error"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btnUpdateCategory">Update Category</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="categoryModalView" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form>
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">View Category</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <input type="hidden" class="form-control" id="txtViewCategoryId" name="txtViewCategoryId"
-                        placeholder="Enter Category Name" maxlength="40" disabled>
-                    <div class="modal-body px-5">
-                        <div class="mb-4">
-                            <label for="txtViewCategory" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="txtViewCategory" name="txtViewCategory"
-                                placeholder="Enter Category Name" maxlength="40" disabled>
-                            <div class="invalid-feedback category-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtViewDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="txtViewDescription" name="txtViewDescription" rows="8"
-                                placeholder="Enter Description Here" disabled></textarea>
-                            <div class="invalid-feedback category-description-error"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="archiveAllModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Archive Selected Categories</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="hdnAllCategoryId" id="hdnAllCategoryId" />
-                    <p>Do you want to restore the selected categories?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary btnArchiveAll">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="archiveCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Archive Category</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" name="hdnCategoryId" id="hdnCategoryId" />
-                    <p>Do you want to archive the selected category?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary btnConfirmArchiveCategory">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
     <footer class="main-footer">
 
         <div class="float-right d-none d-sm-inline-block">
@@ -297,8 +177,31 @@
 
 </div>
 
+<script>
+$(document).ready(function () {
+    $('#productTable').DataTable({
+        "columnDefs": [
+            // { "orderable": false, "targets": 0 },
+            { "orderable": false, "targets": 11 }
+        ],
+        order: [[1, 'asc']]
+    });
 
 
-<script src="category.js"></script>
+
+    var table = $('#productTable').DataTable();
+    if (table.rows().count() === 0) {
+        $('#selectAll').prop('checked', false).prop('disabled', true);
+    } else {
+        $('#selectAll').prop('disabled', false);
+    }
+    window.localStorage.setItem('show_popup_update', 'false');
+    window.localStorage.setItem('show_popup_add', 'false');
+    window.localStorage.setItem('show_popup_failed', 'false');
+
+});
+</script>
+
+
 
 <?php include("shared/dashboard/footer-dashboard.php"); ?>
