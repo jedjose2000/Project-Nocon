@@ -142,4 +142,27 @@ class Supplier extends BaseController
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function getIDSupplier(){
+        $model = new SupplierModel();
+        $supplierId = $this->request->getPost('supplierId');
+        $model->transStart();
+
+        try {
+
+            $data = [
+                'isSupplierArchived' => 1
+            ];
+            $model->update($supplierId, $data);
+            // Commit the transaction if all operations are successful
+            $model->transCommit();
+
+            echo "multi user archived";
+        } catch (\Exception $e) {
+            // Roll back the transaction if an error occurs
+            $model->transRollback();
+
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }

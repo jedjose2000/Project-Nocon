@@ -22,13 +22,13 @@
                         <div>
                             <div class="bg-white m-4 p-4 rounded">
                                 <div class="pb-3 mb-2">
-                                    <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
+                                    <?php if ($permissionChecker->hasPermission('supplierListAdd', 'Add Supplier')): ?>
                                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal"
                                             id="btnCreate"><i class="fa-solid fa-person-circle-plus me-2"></i>Create
                                             Supplier</button>
                                     <?php endif; ?>
 
-                                    <?php if ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
+                                    <?php if ($permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')): ?>
                                         <button class="archiveAllData btn btn-danger flex-end" id="btnArchiveAll"
                                             data-bs-toggle="modal" data-bs-target="#archiveAllModal" disabled><i
                                                 class="fa-solid fa-person-circle-minus me-2"></i>Archive
@@ -75,8 +75,8 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <?php if (
-                                                            $permissionChecker->hasPermission('orderListUpdate', 'Update Order')
-                                                            && $permissionChecker->hasPermission('orderListArchive', 'Archive Order')
+                                                            $permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')
+                                                            && $permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')
                                                         ): ?>
                                                             <button title="Update Supplier"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
@@ -90,14 +90,14 @@
                                                                 data-bs-target="#archiveSupplierModal">
                                                                 <i class="fa-solid fa-archive"></i>
                                                             </button>
-                                                        <?php elseif ($permissionChecker->hasPermission('orderListUpdate', 'Update Order')): ?>
+                                                        <?php elseif ($permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')): ?>
                                                             <button title="Update Supplier"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->supplierId ?>"
                                                                 data-bs-target="#supplierModalUpdate" id="btnUpdateSupplier">
                                                                 <i class="fa-solid fa-pen"></i>
                                                             </button>
-                                                        <?php elseif ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
+                                                        <?php elseif ($permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')): ?>
                                                             <button class="btn btn-outline-danger btnArchiveSupplier"
                                                                 title="Archive Supplier" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->supplierId ?>"
@@ -230,6 +230,71 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="archiveSupplierModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Archive Supplier</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="hdnId" id="hdnId" />
+                        <p>Do you want to archive the selected supplier?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary btnConfirmArchiveSupplier">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="supplierModalView"
+            tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form>
+                    <div class="modal-content">
+                        <input type="hidden" class="form-control" id="txtViewSupplierId" name="txtViewSupplierId">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">View Supplier</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-5">
+                            <div class="mb-4">
+                                <label for="txtViewSupplier" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="txtViewSupplier" name="txtViewSupplier"
+                                    placeholder="Enter Supplier Name" maxlength="40" disabled>
+                                <div class="invalid-feedback supplier-error"></div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="txtViewPhoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="txtViewPhoneNumber"
+                                    name="txtViewPhoneNumber" placeholder="Enter Supplier Number" maxlength="11"
+                                    disabled>
+                                <div class="invalid-feedback supplier-phone-error"></div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="txtViewEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="txtViewEmail" name="txtViewEmail"
+                                    placeholder="Enter Supplier Email" disabled>
+                                <div class="invalid-feedback supplier-email-error"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
 
 
         <section class="content">
@@ -421,10 +486,28 @@
             dataType: 'json',
             success: function (res) {
                 let result = res.find(supplier => supplier.supplierId == supplierId);
-                console.log(result);
                 $('#supplierModalUpdate #txtUpdateSupplier').val(result.supplierName);
                 $('#supplierModalUpdate #txtUpdatePhoneNumber').val(result.phoneNumber);
                 $('#supplierModalUpdate #txtUpdateEmail').val(result.emailAddress);
+            },
+            error: function (data) {
+            }
+        });
+    });
+
+
+    $('body').on('click', '.btnView', function () {
+        var supplierId = $(this).attr('data-id');
+        $('#supplierModalView #txtViewSupplierId').val(supplierId);
+        $.ajax({
+            url: 'view-supplier/' + supplierId,
+            type: "GET",
+            dataType: 'json',
+            success: function (res) {
+                let result = res.find(supplier => supplier.supplierId == supplierId);
+                $('#supplierModalView #txtViewSupplier').val(result.supplierName);
+                $('#supplierModalView #txtViewPhoneNumber').val(result.phoneNumber);
+                $('#supplierModalView #txtViewEmail').val(result.emailAddress);
             },
             error: function (data) {
             }
@@ -652,6 +735,42 @@
             event.preventDefault();
             return false;
         }
+    });
+
+    $('body').on('click', '.btnArchiveSupplier', function () {
+        var supplierId = $(this).attr('data-id');
+        $('#archiveSupplierModal #hdnId').val(supplierId);
+    });
+
+    $('body').on('click', '.btnConfirmArchiveSupplier', function () {
+        var supplierId = $("#hdnId").val();
+        var table = $('#supplierTable').DataTable();
+        $.ajax({
+            url: '/getIDSupplier',
+            type: 'POST',
+            data: { supplierId },
+            success: function (data) {
+                console.log(data);
+                table.row('#' + supplierId).remove().draw();
+                // re-check the status of the checkboxes after the AJAX call
+                var isChecked = $('input[type="checkbox"]:checked', '#supplierTable tbody').length > 0;
+                if (isChecked) {
+                    $('#btnArchiveAll').prop('disabled', false);
+                } else {
+                    $('#btnArchiveAll').prop('disabled', true);
+                    if (table.rows().count() === 0) {
+                        $('#selectAll').prop('checked', false).prop('disabled', true);
+                    } else {
+                        $('#selectAll').prop('disabled', false);
+                    }
+                }
+                alertify.success('Supplier Archived Successfully');
+                table.page.len(table.page.len()).draw();
+            }
+        });
+        $('#archiveSupplierModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
     });
 
 </script>
