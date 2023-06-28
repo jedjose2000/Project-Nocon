@@ -24,15 +24,15 @@
                                 <div class="pb-3 mb-2">
                                     <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
                                         <button class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#categoryModal" id="btnCreateCat"><i
-                                            class="fa-solid fa-person-circle-plus me-2"></i>Create Category</button>
+                                            data-bs-target="#categoryModal" id="btnCreateCat"><i
+                                                class="fa-solid fa-person-circle-plus me-2"></i>Create Category</button>
                                     <?php endif; ?>
 
                                     <?php if ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
                                         <button class="archiveAllData btn btn-danger flex-end" id="btnArchiveAll"
-                                        data-bs-toggle="modal" data-bs-target="#archiveAllModal" disabled><i
-                                            class="fa-solid fa-person-circle-minus me-2"></i>Archive
-                                        Selected</button>
+                                            data-bs-toggle="modal" data-bs-target="#archiveAllModal" disabled><i
+                                                class="fa-solid fa-person-circle-minus me-2"></i>Archive
+                                            Selected</button>
                                     <?php endif; ?>
                                 </div>
                                 <div class="border p-2 rounded">
@@ -206,6 +206,42 @@
         </div>
     </div>
 
+
+    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="categoryModalView" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">View Category</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <input type="hidden" class="form-control" id="txtViewCategoryId" name="txtViewCategoryId"
+                        placeholder="Enter Category Name" maxlength="40" disabled>
+                    <div class="modal-body px-5">
+                        <div class="mb-4">
+                            <label for="txtViewCategory" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="txtViewCategory" name="txtViewCategory"
+                                placeholder="Enter Category Name" maxlength="40" disabled>
+                            <div class="invalid-feedback category-error"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="txtViewDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="txtViewDescription" name="txtViewDescription" rows="8"
+                                placeholder="Enter Description Here" disabled></textarea>
+                            <div class="invalid-feedback category-description-error"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="archiveAllModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -300,8 +336,15 @@
         window.localStorage.setItem('show_popup_update', 'false');
         window.localStorage.setItem('show_popup_add', 'false');
         window.localStorage.setItem('show_popup_failed', 'false');
+
     });
 
+
+    jQuery.validator.addMethod("noSpace", function (value, element) {
+        let newValue = value.trim();
+
+        return (newValue) ? true : false;
+    }, "This field is required");
 
     if (window.localStorage.getItem('show_popup_update') == 'true') {
         alertify.success('Position Updated');
@@ -354,28 +397,32 @@
                             return $("#txtCategory").val();
                         }
                     }
-                }
+                },
+                noSpace: true,
             },
             txtDescription: {
                 required: true,
+                noSpace: true,
             },
         },
         messages: {
             txtCategory: {
                 required: "Please enter a category name.",
-                remote: "Category Name exists."
+                remote: "Category Name exists.",
+                noSpace: "Please enter a category name.",
             },
             txtDescription: {
                 required: "Please enter a description.",
+                noSpace: "Please enter a description.",
             },
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") === "txtCategory") {
                 $(".category-error").html(error); // Set the error message inside the category-error element
-                $(".category-error").css("display", "block"); // Show the error message
+                $(".category-error"); // Show the error message
             } else if (element.attr("name") === "txtDescription") {
                 $(".category-description-error").html(error); // Set the error message inside the category-description-error element
-                $(".category-description-error").css("display", "block"); // Show the error message
+                $(".category-description-error"); // Show the error message
             }
         },
         highlight: function (element) {
@@ -383,6 +430,10 @@
         },
         unhighlight: function (element) {
             $(element).removeClass("is-invalid");
+            $(element).siblings(".error").empty(); // Remove the error message when unhighlighting the element
+        },
+        success: function (label) {
+            label.removeClass("error"); // Remove the "error" class from the label
         },
         submitHandler: function (form) {
             // Form is valid, you can proceed with submitting the form via AJAX
@@ -433,28 +484,32 @@
                             return $("#txtUpdateCategoryId").val();
                         }
                     }
-                }
+                },
+                noSpace: true,
             },
             txtUpdateDescription: {
                 required: true,
+                noSpace: true,
             },
         },
         messages: {
             txtUpdateCategory: {
                 required: "Please enter a category name.",
-                remote: "Category name already exists."
+                remote: "Category name already exists.",
+                noSpace: "Please enter a category name.",
             },
             txtUpdateDescription: {
                 required: "Please enter a description.",
+                noSpace: "Please enter a category name.",
             },
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") === "txtUpdateCategory") {
                 $(".category-error").html(error); // Set the error message inside the category-error element
-                $(".category-error").css("display", "block"); // Show the error message
+                $(".category-error"); // Show the error message
             } else if (element.attr("name") === "txtUpdateDescription") {
                 $(".category-description-error").html(error); // Set the error message inside the category-description-error element
-                $(".category-description-error").css("display", "block"); // Show the error message
+                $(".category-description-error"); // Show the error message
             }
         },
         highlight: function (element) {
@@ -462,6 +517,10 @@
         },
         unhighlight: function (element) {
             $(element).removeClass("is-invalid");
+            $(element).siblings(".error").empty(); // Remove the error message when unhighlighting the element
+        },
+        success: function (label) {
+            label.removeClass("error"); // Remove the "error" class from the label
         },
         submitHandler: function (form) {
             // Form is valid, you can proceed with submitting the form via AJAX
@@ -504,11 +563,26 @@
             type: "GET",
             dataType: 'json',
             success: function (res) {
-                console.log(res);
                 let result = res.find(category => category.categoryId == categoryId);
-
                 $('#categoryModalUpdate #txtUpdateCategory').val(result.categoryName);
                 $('#categoryModalUpdate #txtUpdateDescription').val(result.categoryDescription);
+            },
+            error: function (data) {
+            }
+        });
+    });
+
+    $('body').on('click', '.btnView', function () {
+        var categoryId = $(this).attr('data-id');
+        $('#categoryModalView #txtViewCategoryId').val(categoryId);
+        $.ajax({
+            url: 'view-category/' + categoryId,
+            type: "GET",
+            dataType: 'json',
+            success: function (res) {
+                let result = res.find(category => category.categoryId == categoryId);
+                $('#categoryModalView #txtViewCategory').val(result.categoryName);
+                $('#categoryModalView #txtViewDescription').val(result.categoryDescription);
             },
             error: function (data) {
             }
@@ -607,6 +681,54 @@
         $('body').removeClass('modal-open');
         $('.modal-backdrop').remove();
     });
+
+
+    document.getElementById("txtUpdateCategory").addEventListener("keypress", function (event) {
+        var key = event.keyCode || event.which;
+        var keychar = String.fromCharCode(key);
+        var regex = /[a-zA-Z\s]/;
+
+        if (!regex.test(keychar)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    document.getElementById("txtUpdateDescription").addEventListener("keypress", function (event) {
+        var key = event.keyCode || event.which;
+        var keychar = String.fromCharCode(key);
+        var regex = /[a-zA-Z0-9\s]/;
+
+        if (!regex.test(keychar)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    document.getElementById("txtCategory").addEventListener("keypress", function (event) {
+        var key = event.keyCode || event.which;
+        var keychar = String.fromCharCode(key);
+        var regex = /[a-zA-Z\s]/;
+
+        if (!regex.test(keychar)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    document.getElementById("txtDescription").addEventListener("keypress", function (event) {
+        var key = event.keyCode || event.which;
+        var keychar = String.fromCharCode(key);
+        var regex = /[a-zA-Z0-9\s]/;
+
+        if (!regex.test(keychar)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+
+
 </script>
 
 <?php include("shared/dashboard/footer-dashboard.php"); ?>
