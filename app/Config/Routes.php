@@ -51,7 +51,7 @@ $routes->get('/view-supplier/(:num)', 'Supplier::viewSupplier/$1');
 $routes->post('/checkSupplierNameExists', 'Supplier::checkSupplierNameExists');
 $routes->post('/checkUpdateSupplierNameExists', 'Supplier::checkUpdateSupplierNameExists');
 $routes->post('/archiveAllSupplier', 'Supplier::archiveAllSupplier');
-
+$routes->post('/getIDSupplier', 'Supplier::getIDSupplier');
 
 
 /*

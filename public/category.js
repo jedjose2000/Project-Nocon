@@ -365,8 +365,6 @@ $('body').on('click', '.btnConfirmArchiveCategory', function () {
             }
             alertify.success('Category Archived Successfully');
             table.page.len(table.page.len()).draw();
-
-
         }
     });
     $('#archiveCategoryModal').modal('hide');
