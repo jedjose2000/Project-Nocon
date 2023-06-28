@@ -15,6 +15,7 @@ class Category extends BaseController
 
             return redirect()->to("login");
         }
+        
         $model = new CategoryModel();
         $model->select('*');
         $model->where('isCategoryArchived', 0);
@@ -22,6 +23,12 @@ class Category extends BaseController
         $result = $query->getResult();
         $data["result"] = $result;
         $data['pageTitle'] = 'Category';
+        $permissionChecker = new \App\Libraries\PermissionChecker();
+
+        // Pass the permissionChecker object to the view
+        $data['permissionChecker'] = $permissionChecker;
+    
+
         return view('category', $data);
     }
 
