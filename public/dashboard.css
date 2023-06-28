@@ -24,6 +24,24 @@
   display: none;
 }
 
+.supplier-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.supplier-phone-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.supplier-email-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
 .error {
   font-weight: normal !important;
 }

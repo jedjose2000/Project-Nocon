@@ -45,6 +45,15 @@ $routes->post('/checkUpdateCategoryNameExists', 'Category::checkUpdateCategoryNa
 $routes->post('/archiveAllCategory', 'Category::archiveAllCategory');
 $routes->post('/getIDs', 'Category::getID');
 
+$routes->get('/supplier', 'Supplier::index');
+$routes->post('/insertSupplier', 'Supplier::insertSupplier');
+$routes->get('/view-supplier/(:num)', 'Supplier::viewSupplier/$1');
+$routes->post('/checkSupplierNameExists', 'Supplier::checkSupplierNameExists');
+$routes->post('/checkUpdateSupplierNameExists', 'Supplier::checkUpdateSupplierNameExists');
+$routes->post('/archiveAllSupplier', 'Supplier::archiveAllSupplier');
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
