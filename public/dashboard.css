@@ -45,3 +45,27 @@
 .error {
   font-weight: normal !important;
 }
+
+.product-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-buyprice-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-sellprice-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-clq-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}

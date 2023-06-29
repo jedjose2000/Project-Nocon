@@ -40,4 +40,16 @@ class Products extends BaseController
         return view('products',$data);
     }
 
+    public function checkProductNameExists(){
+        if ($this->request->isAJAX()) {
+            $txtProduct = $this->request->getVar('txtProduct');
+            $model = new ProductModel();
+            $user = $model->where('productName', $txtProduct)->first();
+            if ($user) {
+                return $this->response->setJSON(false);
+            } else {
+                return $this->response->setJSON(true);
+            }
+        }
+    }
 }
