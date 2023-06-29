@@ -54,6 +54,8 @@ $routes->post('/archiveAllSupplier', 'Supplier::archiveAllSupplier');
 $routes->post('/getIDSupplier', 'Supplier::getIDSupplier');
 
 $routes->get('/product', 'Products::index');
+$routes->post('/checkProductNameExists', 'Products::checkProductNameExists');
+
 
 /*
  * --------------------------------------------------------------------
