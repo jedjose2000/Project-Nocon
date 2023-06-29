@@ -141,19 +141,19 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtSupplier" class="form-label">Name</label>
+                                <label for="txtSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtSupplier" name="txtSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" required>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtPhoneNumber" class="form-label">Phone Number</label>
+                                <label for="txtPhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber"
                                     placeholder="Enter Supplier Number" maxlength="11" required>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtEmail" class="form-label">Email Address</label>
+                                <label for="txtEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtEmail" name="txtEmail"
                                     placeholder="Enter Supplier Email" required>
                                 <div class="invalid-feedback supplier-email-error"></div>
@@ -182,20 +182,20 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtUpdateSupplier" class="form-label">Name</label>
+                                <label for="txtUpdateSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtUpdateSupplier" name="txtUpdateSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" required>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtUpdatePhoneNumber" class="form-label">Phone Number</label>
+                                <label for="txtUpdatePhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtUpdatePhoneNumber"
                                     name="txtUpdatePhoneNumber" placeholder="Enter Supplier Number" maxlength="11"
                                     required>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtUpdateEmail" class="form-label">Email Address</label>
+                                <label for="txtUpdateEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtUpdateEmail" name="txtUpdateEmail"
                                     placeholder="Enter Supplier Email" required>
                                 <div class="invalid-feedback supplier-email-error"></div>
@@ -267,20 +267,20 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtViewSupplier" class="form-label">Name</label>
+                                <label for="txtViewSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtViewSupplier" name="txtViewSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" disabled>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtViewPhoneNumber" class="form-label">Phone Number</label>
+                                <label for="txtViewPhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtViewPhoneNumber"
                                     name="txtViewPhoneNumber" placeholder="Enter Supplier Number" maxlength="11"
                                     disabled>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtViewEmail" class="form-label">Email Address</label>
+                                <label for="txtViewEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtViewEmail" name="txtViewEmail"
                                     placeholder="Enter Supplier Email" disabled>
                                 <div class="invalid-feedback supplier-email-error"></div>

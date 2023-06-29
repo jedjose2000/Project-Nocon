@@ -14,6 +14,7 @@ class Products extends BaseController
         $categoryModel = new CategoryModel();
         $results = $productModel->getProductsWithSupplierAndCategory();
 
+
         if (!$this->session->has("user_id")) {
 
             return redirect()->to("login");
@@ -21,6 +22,18 @@ class Products extends BaseController
 
         $permissionChecker = new \App\Libraries\PermissionChecker();
 
+        $categoryModel->select('*');
+        $categoryModel->where('isCategoryArchived', 0);
+        $query = $categoryModel->get();
+        $result = $query->getResult();
+
+        $supplierModel->select('*');
+        $supplierModel->where('isSupplierArchived', 0);
+        $query = $supplierModel->get();
+        $resultSupplier = $query->getResult();
+
+        $data["supplier"] = $resultSupplier;
+        $data["category"] = $result;
         $data["result"] = $results;
         $data['permissionChecker'] = $permissionChecker;
         $data['pageTitle'] = 'Products';
