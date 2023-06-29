@@ -145,13 +145,13 @@
                     </div>
                     <div class="modal-body px-5">
                         <div class="mb-4">
-                            <label for="txtCategory" class="form-label">Name</label>
+                            <label for="txtCategory" class="form-label">Name<span class="required" style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtCategory" name="txtCategory"
                                 placeholder="Enter Category Name" maxlength="40" required>
                             <div class="invalid-feedback category-error"></div>
                         </div>
                         <div class="mb-4">
-                            <label for="txtDescription" class="form-label">Description</label>
+                            <label for="txtDescription" class="form-label">Description<span class="required" style="color:red">*</span></label>
                             <textarea class="form-control" id="txtDescription" name="txtDescription" rows="8"
                                 placeholder="Enter Description Here" required></textarea>
                             <div class="invalid-feedback category-description-error"></div>
@@ -184,13 +184,13 @@
                         placeholder="Enter Category Name" maxlength="40">
                     <div class="modal-body px-5">
                         <div class="mb-4">
-                            <label for="txtUpdateCategory" class="form-label">Name</label>
+                            <label for="txtUpdateCategory" class="form-label">Name<span class="required" style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtUpdateCategory" name="txtUpdateCategory"
                                 placeholder="Enter Category Name" maxlength="40" required>
                             <div class="invalid-feedback category-error"></div>
                         </div>
                         <div class="mb-4">
-                            <label for="txtUpdateDescription" class="form-label">Description</label>
+                            <label for="txtUpdateDescription" class="form-label">Description<span class="required" style="color:red">*</span></label>
                             <textarea class="form-control" id="txtUpdateDescription" name="txtUpdateDescription"
                                 rows="8" placeholder="Enter Description Here" required></textarea>
                             <div class="invalid-feedback category-description-error"></div>
@@ -220,13 +220,13 @@
                         placeholder="Enter Category Name" maxlength="40" disabled>
                     <div class="modal-body px-5">
                         <div class="mb-4">
-                            <label for="txtViewCategory" class="form-label">Name</label>
+                            <label for="txtViewCategory" class="form-label">Name<span class="required" style="color:red">*</span></label>
                             <input type="text" class="form-control" id="txtViewCategory" name="txtViewCategory"
                                 placeholder="Enter Category Name" maxlength="40" disabled>
                             <div class="invalid-feedback category-error"></div>
                         </div>
                         <div class="mb-4">
-                            <label for="txtViewDescription" class="form-label">Description</label>
+                            <label for="txtViewDescription" class="form-label">Description<span class="required" style="color:red">*</span></label>
                             <textarea class="form-control" id="txtViewDescription" name="txtViewDescription" rows="8"
                                 placeholder="Enter Description Here" disabled></textarea>
                             <div class="invalid-feedback category-description-error"></div>

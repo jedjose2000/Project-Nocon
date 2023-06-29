@@ -24,8 +24,8 @@
                                 <div class="pb-3 mb-2">
                                     <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
                                         <button class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#categoryModal" id="btnCreateCat"><i
-                                                class="fa-solid fa-person-circle-plus me-2"></i>Create Category</button>
+                                            data-bs-target="#productModal" id="btnCreateCat"><i
+                                                class="fa-solid fa-person-circle-plus me-2"></i>Create Product</button>
                                     <?php endif; ?>
 
                                     <?php if ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
@@ -49,12 +49,9 @@
                                                 <th class="text-center">Brand</th>
                                                 <th class="text-center">Category</th>
                                                 <th class="text-center">Supplier</th>
-                                                <th class="text-center">Description</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">Expiration Date</th>
+                                                <th class="text-center">Unit</th>
                                                 <th class="text-center">Buy Price</th>
                                                 <th class="text-center">Sell Price</th>
-                                                <th class="text-center">Critical Level Quantity</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -83,22 +80,13 @@
                                                         <?php echo $row->supplierName ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <?php echo $row->productDescription ?>
-                                                    </td>
-                                                    <td class="text-center">
                                                         <?php echo $row->unit ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo $row->willExpire ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->buyPrice ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->sellPrice ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo $row->clq ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php if (
@@ -175,31 +163,152 @@
 
     </aside>
 
+
+    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="productModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formCategory">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-5">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="txtProduct" class="form-label">Name<span class="required"
+                                        style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="txtProduct" name="txtProduct"
+                                    placeholder="Enter Product Name" maxlength="40" required>
+                                <div class="invalid-feedback product-error"></div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="txtBrand" class="form-label">Brand</label>
+                                <input type="text" class="form-control" id="txtBrand" name="txtBrand"
+                                    placeholder="Enter Brand Name" maxlength="40" required>
+                                <div class="invalid-feedback product-brand-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="txtCategory">Category<span class="required"
+                                        style="color:red">*</span></label>
+                                <select class="form-select" name="txtCategory" id="txtCategory" aria-label="Category">
+                                    <?php foreach ($category as $category): ?>
+                                        <option value="<?php echo $category->categoryId; ?>"><?php echo $category->categoryName; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="txtSupplier">Supplier<span class="required"
+                                        style="color:red">*</span></label>
+                                <select class="form-select" name="txtSupplier" id="txtSupplier" aria-label="Supplier">
+                                    <?php foreach ($supplier as $supplier): ?>
+                                        <option value="<?php echo $supplier->supplierId; ?>"><?php echo $supplier->supplierName; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="txtDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="txtDescription" name="txtDescription" rows="8"
+                                placeholder="Enter Description Here" required></textarea>
+                            <div class="invalid-feedback product-description-error"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <label for="txtUnit" class="form-label">Unit<span class="required"
+                                        style="color:red">*</span></label>
+                                <select class="form-select" name="txtUnit" id="txtUnit" aria-label="Unit">
+                                    <option value="pcs">Pieces</option>
+                                    <option value="kg">Kilogram</option>
+                                    <option value="ton">Ton</option>
+                                    <option value="unit">Unit</option>
+                                    <option value="pack">Pack</option>
+                                    <option value="box">Box</option>
+                                    <option value="pair">Pair</option>
+                                    <option value="roll">Roll</option>
+                                    <option value="ream">Ream</option>
+                                    <option value="sack">Sack</option>
+                                    <option value="set">Set</option>
+                                    <option value="tube">Tube</option>
+                                    <option value="bottle">Bottle</option>
+                                </select>
+                                <div class="invalid-feedback product-unit-error"></div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label for="txtBuyPrice" class="form-label">Buy Price<span class="required"
+                                        style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="txtBuyPrice" name="txtBuyPrice"
+                                    placeholder="Enter Buy Price" maxlength="10" required>
+                                <div class="invalid-feedback product-buyprice-error"></div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label for="txtSellPrice" class="form-label">Sell Price<span class="required"
+                                        style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="txtSellPrice" name="txtSellPrice"
+                                    placeholder="Enter Sell Price" maxlength="10" required>
+                                <div class="invalid-feedback product-sellprice-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label for="txtCLQ" class="form-label">Critical Level Quantity<span class="required"
+                                        style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="txtCLQ" name="txtCLQ"
+                                    placeholder="Enter Critical Level Quantity" maxlength="10" required>
+                                <div class="invalid-feedback product-clq-error"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="1" id="chkWillExpire"
+                                        name="chkWillExpire">
+                                    <label class="form-check-label" for="chkWillExpire">Will Expire?</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btnAddProduct">Add Product</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
 </div>
 
 <script>
-$(document).ready(function () {
-    $('#productTable').DataTable({
-        "columnDefs": [
-            // { "orderable": false, "targets": 0 },
-            { "orderable": false, "targets": 11 }
-        ],
-        order: [[1, 'asc']]
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            "columnDefs": [
+                // { "orderable": false, "targets": 0 },
+                { "orderable": false, "targets": 8 }
+            ],
+            order: [[1, 'asc']]
+        });
+
+
+
+        var table = $('#productTable').DataTable();
+        if (table.rows().count() === 0) {
+            $('#selectAll').prop('checked', false).prop('disabled', true);
+        } else {
+            $('#selectAll').prop('disabled', false);
+        }
+        window.localStorage.setItem('show_popup_update', 'false');
+        window.localStorage.setItem('show_popup_add', 'false');
+        window.localStorage.setItem('show_popup_failed', 'false');
+
     });
 
-
-
-    var table = $('#productTable').DataTable();
-    if (table.rows().count() === 0) {
-        $('#selectAll').prop('checked', false).prop('disabled', true);
-    } else {
-        $('#selectAll').prop('disabled', false);
-    }
-    window.localStorage.setItem('show_popup_update', 'false');
-    window.localStorage.setItem('show_popup_add', 'false');
-    window.localStorage.setItem('show_popup_failed', 'false');
-
-});
 </script>
 
 
