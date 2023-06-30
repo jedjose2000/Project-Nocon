@@ -101,9 +101,11 @@ class Category extends BaseController
     public function checkCategoryNameExists()
     {
         if ($this->request->isAJAX()) {
-            $txtCategory = $this->request->getVar('txtCategory');
+            $txtCategory = trim($this->request->getVar('txtCategory'));
             $model = new CategoryModel();
-            $user = $model->where('categoryName', $txtCategory)->first();
+    
+            $user = $model->where("REPLACE(categoryName, ' ', '')", str_replace(' ', '', $txtCategory))->first();
+    
             if ($user) {
                 return $this->response->setJSON(false);
             } else {
@@ -115,11 +117,11 @@ class Category extends BaseController
     public function checkUpdateCategoryNameExists()
     {
         if ($this->request->isAJAX()) {
-            $txtCategory = $this->request->getVar('txtUpdateCategory');
+            $txtCategory = trim($this->request->getVar('txtUpdateCategory'));
             $txtCategoryId = $this->request->getVar('txtUpdateCategoryId');
 
             $model = new CategoryModel();
-            $category = $model->where('categoryName', $txtCategory)->first();
+            $category = $model->where("REPLACE(categoryName, ' ', '')", str_replace(' ', '', $txtCategory))->first();
 
             if ($category && $category['categoryId'] != $txtCategoryId) {
                 return $this->response->setJSON(false);

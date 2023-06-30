@@ -8,7 +8,7 @@ class ProductModel extends Model
 {
     protected $table = 'tblproducts';
     protected $primaryKey = 'productID';
-    protected $allowedFields = ['productID', 'productName', 'productBrand', 'categoryID', 'supplierID', 'productDescription', 'unit', 'willExpire', 'buyPrice', 'sellPrice', 'clq','isProductArchived','expirationDate'];
+    protected $allowedFields = ['productID', 'productName', 'productBrand', 'categoryID', 'supplierID', 'productDescription', 'unit', 'willExpire', 'buyPrice', 'sellPrice', 'clq','isProductArchived','expirationDate','productCode'];
 
     public function getProductsWithSupplierAndCategory()
     {
