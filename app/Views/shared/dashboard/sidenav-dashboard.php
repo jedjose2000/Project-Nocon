@@ -34,6 +34,12 @@
             <p>Product</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url('inventory'); ?>" class="nav-link ">
+            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <p>Inventory</p>
+          </a>
+        </li>
       </ul>
     </nav>
 

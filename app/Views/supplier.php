@@ -79,6 +79,12 @@
                                                             && $permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')
                                                             && $permissionChecker->hasPermission('supplierListView', 'View Supplier')
                                                         ): ?>
+                                                            <button title="View Supplier"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalView" id="btnViewSupplier">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </button>
                                                             <button title="Update Supplier"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->supplierId ?>"
@@ -90,12 +96,6 @@
                                                                 data-id="<?php echo $row->supplierId ?>"
                                                                 data-bs-target="#archiveSupplierModal">
                                                                 <i class="fa-solid fa-archive"></i>
-                                                            </button>
-                                                            <button title="View Supplier"
-                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->supplierId ?>"
-                                                                data-bs-target="#supplierModalView" id="btnViewSupplier">
-                                                                <i class="fa-solid fa-eye"></i>
                                                             </button>
                                                         <?php elseif (
                                                             $permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')

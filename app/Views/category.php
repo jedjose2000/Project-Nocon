@@ -75,6 +75,12 @@
                                                             && $permissionChecker->hasPermission('orderListArchive', 'Archive Order')
                                                             && $permissionChecker->hasPermission('orderListView', 'View Order')
                                                         ): ?>
+                                                            <button title="View Category"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->categoryId ?>"
+                                                                data-bs-target="#categoryModalView" id="btnViewCategory">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </button>
                                                             <button title="Update Category"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->categoryId ?>"
@@ -87,17 +93,11 @@
                                                                 data-bs-target="#archiveCategoryModal">
                                                                 <i class="fa-solid fa-archive"></i>
                                                             </button>
-                                                            <button title="View Category"
-                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
-                                                                data-id="<?php echo $row->categoryId ?>"
-                                                                data-bs-target="#categoryModalView" id="btnViewCategory">
-                                                                <i class="fa-solid fa-eye"></i>
-                                                            </button>
                                                         <?php elseif (
                                                             $permissionChecker->hasPermission('orderListUpdate', 'Update Order')
                                                             && $permissionChecker->hasPermission('orderListArchive', 'Archive Order')
                                                         ): ?>
-                                                             <button title="Update Category"
+                                                            <button title="Update Category"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->categoryId ?>"
                                                                 data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
@@ -113,7 +113,7 @@
                                                             $permissionChecker->hasPermission('orderListUpdate', 'Update Order')
                                                             && $permissionChecker->hasPermission('orderListView', 'View Order')
                                                         ): ?>
-                                                           <button title="Update Category"
+                                                            <button title="Update Category"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->categoryId ?>"
                                                                 data-bs-target="#categoryModalUpdate" id="btnUpdateCategory">
