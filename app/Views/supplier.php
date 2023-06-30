@@ -77,12 +77,67 @@
                                                         <?php if (
                                                             $permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')
                                                             && $permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')
+                                                            && $permissionChecker->hasPermission('supplierListView', 'View Supplier')
                                                         ): ?>
                                                             <button title="Update Supplier"
                                                                 class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->supplierId ?>"
                                                                 data-bs-target="#supplierModalUpdate" id="btnUpdateSupplier">
                                                                 <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                            <button class="btn btn-outline-danger btnArchiveSupplier"
+                                                                title="Archive Supplier" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#archiveSupplierModal">
+                                                                <i class="fa-solid fa-archive"></i>
+                                                            </button>
+                                                            <button title="View Supplier"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalView" id="btnViewSupplier">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </button>
+                                                        <?php elseif (
+                                                            $permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')
+                                                            && $permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')
+                                                        ): ?>
+                                                            <button title="Update Supplier"
+                                                                class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalUpdate" id="btnUpdateSupplier">
+                                                                <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                            <button class="btn btn-outline-danger btnArchiveSupplier"
+                                                                title="Archive Supplier" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#archiveSupplierModal">
+                                                                <i class="fa-solid fa-archive"></i>
+                                                            </button>
+                                                        <?php elseif (
+                                                            $permissionChecker->hasPermission('supplierListUpdate', 'Update Supplier')
+                                                            && $permissionChecker->hasPermission('supplierListView', 'View Supplier')
+                                                        ): ?>
+                                                            <button title="Update Supplier"
+                                                                class="btn btn-outline-primary btnUpdate" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalUpdate" id="btnUpdateSupplier">
+                                                                <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                            <button title="View Supplier"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalView" id="btnViewSupplier">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </button>
+                                                        <?php elseif (
+                                                            $permissionChecker->hasPermission('supplierListArchive', 'Archive Supplier')
+                                                            && $permissionChecker->hasPermission('supplierListView', 'View Supplier')
+                                                        ): ?>
+                                                            <button title="View Supplier"
+                                                                class="btn btn-outline-primary btnView" data-bs-toggle="modal"
+                                                                data-id="<?php echo $row->supplierId ?>"
+                                                                data-bs-target="#supplierModalView" id="btnViewSupplier">
+                                                                <i class="fa-solid fa-eye"></i>
                                                             </button>
                                                             <button class="btn btn-outline-danger btnArchiveSupplier"
                                                                 title="Archive Supplier" data-bs-toggle="modal"
@@ -104,15 +159,18 @@
                                                                 data-bs-target="#archiveSupplierModal">
                                                                 <i class="fa-solid fa-archive"></i>
                                                             </button>
-                                                        <?php else: ?>
+                                                        <?php elseif ($permissionChecker->hasPermission('supplierListView', 'View Supplier')): ?>
                                                             <button title="View Supplier"
                                                                 class="btn btn-outline-primary btnView" data-bs-toggle="modal"
                                                                 data-id="<?php echo $row->supplierId ?>"
                                                                 data-bs-target="#supplierModalView" id="btnViewSupplier">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
+                                                        <?php else: ?>
+                                                            No Action
                                                         <?php endif; ?>
                                                     </td>
+
                                                 </tr>
                                                 <?php
                                             }
@@ -141,19 +199,22 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
+                                <label for="txtSupplier" class="form-label">Name<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtSupplier" name="txtSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" required>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtPhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
+                                <label for="txtPhoneNumber" class="form-label">Phone Number<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber"
                                     placeholder="Enter Supplier Number" maxlength="11" required>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
+                                <label for="txtEmail" class="form-label">Email Address<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtEmail" name="txtEmail"
                                     placeholder="Enter Supplier Email" required>
                                 <div class="invalid-feedback supplier-email-error"></div>
@@ -182,20 +243,23 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtUpdateSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
+                                <label for="txtUpdateSupplier" class="form-label">Name<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtUpdateSupplier" name="txtUpdateSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" required>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtUpdatePhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
+                                <label for="txtUpdatePhoneNumber" class="form-label">Phone Number<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtUpdatePhoneNumber"
                                     name="txtUpdatePhoneNumber" placeholder="Enter Supplier Number" maxlength="11"
                                     required>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtUpdateEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
+                                <label for="txtUpdateEmail" class="form-label">Email Address<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtUpdateEmail" name="txtUpdateEmail"
                                     placeholder="Enter Supplier Email" required>
                                 <div class="invalid-feedback supplier-email-error"></div>
@@ -221,7 +285,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="hdnAllCategoryId" id="hdnAllCategoryId" />
-                        <p>Do you want to restore the selected supplier?</p>
+                        <p>Do you want to archive the selected supplier?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -254,8 +318,8 @@
         </div>
 
 
-        <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="supplierModalView"
-            tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="supplierModalView" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <form>
                     <div class="modal-content">
@@ -267,20 +331,23 @@
                         </div>
                         <div class="modal-body px-5">
                             <div class="mb-4">
-                                <label for="txtViewSupplier" class="form-label">Name<span class="required" style="color:red">*</span></label>
+                                <label for="txtViewSupplier" class="form-label">Name<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtViewSupplier" name="txtViewSupplier"
                                     placeholder="Enter Supplier Name" maxlength="40" disabled>
                                 <div class="invalid-feedback supplier-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtViewPhoneNumber" class="form-label">Phone Number<span class="required" style="color:red">*</span></label>
+                                <label for="txtViewPhoneNumber" class="form-label">Phone Number<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="text" class="form-control" id="txtViewPhoneNumber"
                                     name="txtViewPhoneNumber" placeholder="Enter Supplier Number" maxlength="11"
                                     disabled>
                                 <div class="invalid-feedback supplier-phone-error"></div>
                             </div>
                             <div class="mb-4">
-                                <label for="txtViewEmail" class="form-label">Email Address<span class="required" style="color:red">*</span></label>
+                                <label for="txtViewEmail" class="form-label">Email Address<span class="required"
+                                        style="color:red">*</span></label>
                                 <input type="email" class="form-control" id="txtViewEmail" name="txtViewEmail"
                                     placeholder="Enter Supplier Email" disabled>
                                 <div class="invalid-feedback supplier-email-error"></div>

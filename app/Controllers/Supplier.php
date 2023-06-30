@@ -88,10 +88,13 @@ class Supplier extends BaseController
 
     public function checkSupplierNameExists()
     {
+
         if ($this->request->isAJAX()) {
             $txtSupplier = $this->request->getVar('txtSupplier');
             $model = new SupplierModel();
-            $user = $model->where('supplierName', $txtSupplier)->first();
+    
+            $user = $model->where("REPLACE(supplierName, ' ', '')", str_replace(' ', '', $txtSupplier))->first();
+    
             if ($user) {
                 return $this->response->setJSON(false);
             } else {
@@ -102,11 +105,16 @@ class Supplier extends BaseController
 
     public function checkUpdateSupplierNameExists()
     {
+
+
+
         if ($this->request->isAJAX()) {
             $txtUpdateSupplier = $this->request->getVar('txtUpdateSupplier');
             $txtUpdateSupplierId = $this->request->getVar('txtUpdateSupplierId');
+
             $model = new SupplierModel();
-            $supplier = $model->where('supplierName', $txtUpdateSupplier)->first();
+            $supplier = $model->where("REPLACE(supplierName, ' ', '')", str_replace(' ', '', $txtUpdateSupplier))->first();
+    
 
             if ($supplier && $supplier['supplierId'] != $txtUpdateSupplierId) {
                 return $this->response->setJSON(false);
@@ -114,6 +122,8 @@ class Supplier extends BaseController
                 return $this->response->setJSON(true);
             }
         }
+
+
     }
 
     public function archiveAllSupplier(){

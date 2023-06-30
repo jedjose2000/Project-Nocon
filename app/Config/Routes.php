@@ -55,8 +55,11 @@ $routes->post('/getIDSupplier', 'Supplier::getIDSupplier');
 
 $routes->get('/product', 'Products::index');
 $routes->post('/checkProductNameExists', 'Products::checkProductNameExists');
-
-
+$routes->post('/insertProduct', 'Products::insertProduct');
+$routes->get('/view-product/(:num)', 'Products::viewProduct/$1');
+$routes->post('/checkUpdateProductNameExists', 'Products::checkUpdateProductNameExists');
+$routes->post('/archiveAllProducts', 'Products::archiveAllProducts');
+$routes->post('/getIDProduct', 'Products::getIDProduct');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
