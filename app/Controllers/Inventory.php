@@ -260,6 +260,33 @@ class Inventory extends BaseController
     
         return $this->response->setJSON($data);
     }
+
+    public function archiveAllInventory(){
+        $model = new InventoryModel();
+        $inventoryIds = $this->request->getPost('inventoryId');
+
+        // Start a database transaction
+        $model->transStart();
+
+        try {
+            foreach ($inventoryIds as $id) {
+                $data = [
+                    'isInventoryArchived' => 1
+                ];
+                $model->update($id, $data);
+            }
+
+            // Commit the transaction if all operations are successful
+            $model->transCommit();
+
+            echo "multi user archived";
+        } catch (\Exception $e) {
+            // Roll back the transaction if an error occurs
+            $model->transRollback();
+
+            echo "Error: " . $e->getMessage();
+        }
+    }
     
 
 
