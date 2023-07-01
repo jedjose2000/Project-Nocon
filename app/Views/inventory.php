@@ -94,14 +94,13 @@
                                                         <?php echo $row->totalQuantity ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button title="Update Category"
-                                                            class="btn btn-outline-success btnStockIn"
+                                                        <button title="Stock In" class="btn btn-outline-success btnStockIn"
                                                             data-bs-toggle="modal" data-id="<?php echo $row->inventoryId ?>"
                                                             product-id="<?php echo $row->productId ?>"
                                                             data-bs-target="#inventoryModalStockIn" id="btnStockIn">
                                                             <i class="fas fa-boxes"></i>
                                                         </button>
-                                                        <button title="Stock In" class="btn btn-outline-danger btnStockOut"
+                                                        <button title="Stock Out" class="btn btn-outline-danger btnStockOut"
                                                             data-bs-toggle="modal" data-id="<?php echo $row->inventoryId ?>"
                                                             product-id="<?php echo $row->productId ?>"
                                                             data-bs-target="#inventoryModalStockOut" id="btnStockOut">
@@ -340,6 +339,26 @@
         </div>
     </div>
 
+    <div class="modal fade" id="archiveAllModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Archive Selected Item</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="hdnAllInventoryId" id="hdnAllInventoryId" />
+                    <p>Do you want to archive the selected item?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btnArchiveAll">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -388,6 +407,88 @@
         });
 
     });
+
+    $('#inventoryTable tbody').on('change', 'input[type="checkbox"]', function () {
+        var isChecked = $('input[type="checkbox"]:checked', '#inventoryTable tbody').length > 0;
+        if (isChecked) {
+            $('#btnArchiveAll').prop('disabled', false);
+        } else {
+            $('#btnArchiveAll').prop('disabled', true);
+        }
+        // check or uncheck the header checkbox based on the state of the row checkboxes
+        $('#selectAll').prop('checked', $('input[type="checkbox"]', '#inventoryTable tbody').length === $('input[type="checkbox"]:checked', '#inventoryTable tbody').length);
+
+    });
+
+    $('#selectAll').on('change', function () {
+        var isChecked = $(this).is(':checked');
+        var table = $('#inventoryTable').DataTable();
+        $('#btnArchiveAll').prop('disabled', !isChecked);
+        // check or uncheck all row checkboxes based on the state of the header checkbox
+        table.rows().every(function () {
+            var rowNode = this.node();
+            $('input[type="checkbox"]', rowNode).prop('checked', isChecked);
+        });
+    });
+
+
+    $(document).on('click', '.archiveAllData', function () {
+        var checkboxes = $(".data_checkbox:checked");
+        if (checkboxes.length > 0) {
+            var inventoryId = [];
+            checkboxes.each(function () {
+                inventoryId.push($(this).val());
+            })
+            var inventoryIdString = JSON.stringify(inventoryId);
+            $('#hdnAllInventoryId').val(inventoryIdString);
+        }
+    })
+
+    $(document).on('click', '.btnArchiveAll', function () {
+        var inventoryIdString = $('#hdnAllInventoryId').val();
+        if (inventoryIdString === "") {
+            alertify.error('Please select rows to archive!');
+            return;
+        }
+        var inventoryId = JSON.parse(inventoryIdString);
+        var checkboxes = $(".data_checkbox:checked");
+        $.ajax({
+            url: '/archiveAllInventory',
+            type: 'POST',
+            data: { inventoryId },
+            success: function (data) {
+                checkboxes.each(function () {
+                    var row = $(this).closest('tr');
+                    var table = $('#inventoryTable').DataTable();
+                    table.row(row).remove().draw(false);
+                });
+                $('#btnArchiveAll').prop('disabled', true);
+                alertify.success('Items Archived Successfully');
+                var isChecked = $('input[type="checkbox"]:checked', '#inventoryTable tbody').length > 0;
+                if (isChecked) {
+                    $('#btnArchiveAll').prop('disabled', false);
+                } else {
+                    $('#btnArchiveAll').prop('disabled', true);
+                    $('#selectAll').prop('checked', false);
+                }
+            }
+        });
+        $('#archiveAllModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    })
+
+
+
+
+
+
+
+
+
+
+
+
 
     $(document).ready(function () {
         $('#txtProductInventory').change(function () {
@@ -757,10 +858,12 @@
 
                 let stockInDataSet = [];
                 res.resultStockIn.forEach(element => {
+                    let stockInDate = new Date(element.stockInDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    let expirationDate = element.stockInExpirationDate !== '0000-00-00' ? new Date(element.stockInExpirationDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Non-Perishable';
                     stockInDataSet.push([
                         element.numberOfStockIn,
-                        element.stockInDate,
-                        element.stockInExpirationDate,
+                        stockInDate,
+                        expirationDate,
                     ]);
                 });
 
@@ -785,10 +888,11 @@
 
                 let stockOutDataSet = [];
                 res.resultStockOut.forEach(element => {
+                    let stockOutDate = new Date(element.stockOutDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
                     stockOutDataSet.push([
                         element.stockOutQuantity,
+                        stockOutDate,
                         element.reason,
-                        element.stockOutDate,
                     ]);
                 });
 
@@ -796,8 +900,8 @@
                     data: stockOutDataSet,
                     columns: [
                         { title: 'Number of Stock Out' },
-                        { title: 'Reason' },
                         { title: 'Stock Out Date' },
+                        { title: 'Reason' },
                     ],
                     columnDefs: [
                         {

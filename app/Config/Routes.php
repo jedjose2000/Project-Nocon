@@ -69,7 +69,7 @@ $routes->post('/stockIn', 'Inventory::stockIn');
 $routes->post('/stockOut', 'Inventory::stockOut');
 $routes->post('/checkIfStockIsSufficient', 'Inventory::checkIfStockIsSufficient');
 $routes->get('/view-stockInHistory', 'Inventory::viewHistoryStockIn');
-
+$routes->post('/archiveAllInventory', 'Inventory::archiveAllInventory');
 
 
 /*

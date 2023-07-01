@@ -8,7 +8,7 @@ class InventoryModel extends Model
 {
     protected $table = 'tblinventory';
     protected $primaryKey = 'inventoryId';
-    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate'];
+    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate','isInventoryArchived'];
 
     public function getProductsWithInventoryAndProducts()
     {
@@ -18,6 +18,7 @@ class InventoryModel extends Model
                          (tblinventory.totalQuantity - tblinventory.sold - tblinventory.damaged - tblinventory.lost - tblinventory.expired) AS totalStockIn');
         $builder->join('tblinventory', 'tblinventory.productID = tblproducts.productId');
         $builder->where('tblproducts.isProductArchived', 0);
+        $builder->where('tblinventory.isInventoryArchived', 0);
         $builder->groupBy('tblproducts.productId');
         $query = $builder->get();
         $result = $query->getResult();
