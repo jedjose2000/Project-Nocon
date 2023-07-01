@@ -25,6 +25,27 @@ class InventoryModel extends Model
     }
 
 
+    public function getProductsWithStockIn($productId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblstockin');
+        $builder->where('productId', $productId);
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+    
+
+    public function getProductsWithStockOut($productId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblstockout');
+        $builder->where('productIdentification', $productId);
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
 
     public function checkStockSufficiency($productId, $quantity)
     {

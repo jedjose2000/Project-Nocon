@@ -68,6 +68,9 @@ $routes->get('/view-stockIn/(:num)', 'Inventory::viewStockIn/$1');
 $routes->post('/stockIn', 'Inventory::stockIn');
 $routes->post('/stockOut', 'Inventory::stockOut');
 $routes->post('/checkIfStockIsSufficient', 'Inventory::checkIfStockIsSufficient');
+$routes->get('/view-stockInHistory', 'Inventory::viewHistoryStockIn');
+
+
 
 /*
  * --------------------------------------------------------------------
