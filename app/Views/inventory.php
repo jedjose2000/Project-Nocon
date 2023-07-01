@@ -25,7 +25,7 @@
                                     <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
                                         <button class="btn btn-success" data-bs-toggle="modal"
                                             data-bs-target="#categoryModal" id="btnCreateCat"><i
-                                                class="fa-solid fa-person-circle-plus me-2"></i>Create Category</button>
+                                                class="fa-solid fa-person-circle-plus me-2"></i>Add Product</button>
                                     <?php endif; ?>
 
                                     <?php if ($permissionChecker->hasPermission('orderListArchive', 'Archive Order')): ?>
@@ -36,7 +36,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="border p-2 rounded">
-                                    <table id="categoryTable" class="display" style="width:100%">
+                                    <table id="inventoryTable" class="display" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center" data-orderable="false">
@@ -45,13 +45,19 @@
                                                         <label for="selectAll"></label>
                                                     </span>
                                                 </th>
-                                                <th class="text-center">Category Name</th>
-                                                <th class="text-center">Description</th>
+                                                <th class="text-center">Product Code</th>
+                                                <th class="text-center">Product Name</th>
+                                                <th class="text-center">Product Description</th>
+                                                <th class="text-center">Damaged</th>
+                                                <th class="text-center">Lost</th>
+                                                <th class="text-center">Expired</th>
+                                                <th class="text-center">Available</th>
+                                                <th class="text-center">Total Quantity</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -72,7 +78,7 @@
     </div>
 
 
-   
+
 
 
     <footer class="main-footer">
@@ -86,9 +92,76 @@
 
     </aside>
 
+
+    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="inventoryModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formCategory">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-5">
+                        <div class="mb-4">
+                            <label for="txtProductInventory" class="form-label">Product Name<span class="required"
+                                    style="color:red">*</span></label>
+                            <input type="text" class="form-control" id="txtProductInventory" name="txtProductInventory"
+                                placeholder="Enter Category Name" maxlength="40" required>
+                            <div class="invalid-feedback inventory-error"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="txtProductQuantity" class="form-label">Quantity<span class="required"
+                                    style="color:red">*</span></label>
+                            <input type="text" class="form-control" id="txtProductQuantity" name="txtProductQuantity"
+                                placeholder="Enter Category Name" maxlength="40" required>
+                            <div class="invalid-feedback inventory-quantity-error"></div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="txtDescription" class="form-label">Description<span class="required"
+                                    style="color:red">*</span></label>
+                            <textarea class="form-control" id="txtDescription" name="txtDescription" rows="8"
+                                placeholder="Enter Description Here" required></textarea>
+                            <div class="invalid-feedback category-description-error"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btnAddCategory">Add Category</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 
+<script>
+    $(document).ready(function () {
+        $('#inventoryTable').DataTable({
+            "columnDefs": [
+                // { "orderable": false, "targets": 0 },
+                { "orderable": false, "targets": 9 }
+            ],
+            order: [[1, 'asc']]
+        });
 
+
+        var table = $('#inventoryTable').DataTable();
+        if (table.rows().count() === 0) {
+            $('#selectAll').prop('checked', false).prop('disabled', true);
+        } else {
+            $('#selectAll').prop('disabled', false);
+        }
+        window.localStorage.setItem('show_popup_update', 'false');
+        window.localStorage.setItem('show_popup_add', 'false');
+        window.localStorage.setItem('show_popup_failed', 'false');
+
+    });
+
+
+</script>
 
 <?php include("shared/dashboard/footer-dashboard.php"); ?>

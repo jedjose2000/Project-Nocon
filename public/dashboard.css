@@ -69,3 +69,10 @@
   color: red;
   display: none;
 }
+
+.product-category-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+

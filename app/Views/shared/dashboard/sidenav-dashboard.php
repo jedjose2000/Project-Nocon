@@ -31,7 +31,7 @@
         <li class="nav-item">
           <a href="<?php echo base_url('product'); ?>" class="nav-link ">
             <i class="fa-regular fa-rectangle-list order-icon"></i>
-            <p>Product</p>
+            <p>Products</p>
           </a>
         </li>
         <li class="nav-item">
