@@ -76,3 +76,28 @@
   display: none;
 }
 
+.inventory-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-quantity-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-expiration-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-supplier-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+

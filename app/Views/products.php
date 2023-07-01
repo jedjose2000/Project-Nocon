@@ -370,8 +370,8 @@
                                     <?php foreach ($updateCategory as $updateCategory): ?>
                                         <option value="<?php echo $updateCategory->categoryId; ?>"><?php echo $updateCategory->categoryName; ?></option>
                                     <?php endforeach; ?>
-                                    <div class="invalid-feedback product-category-error"></div>
                                 </select>
+                                <div class="invalid-feedback product-category-error"></div>
                             </div>
                         </div>
                         <div class="mb-4">
