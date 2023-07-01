@@ -101,18 +101,18 @@
                                                             data-bs-target="#inventoryModalStockIn" id="btnStockIn">
                                                             <i class="fas fa-boxes"></i>
                                                         </button>
-                                                        <button title="Stock In"
-                                                            class="btn btn-outline-secondary btnStockOut"
+                                                        <button title="Stock In" class="btn btn-outline-danger btnStockOut"
                                                             data-bs-toggle="modal" data-id="<?php echo $row->inventoryId ?>"
                                                             product-id="<?php echo $row->productId ?>"
                                                             data-bs-target="#inventoryModalStockOut" id="btnStockOut">
                                                             <i class="fas fa-box-open"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-danger btnArchiveCategory"
-                                                            title="Archive Category" data-bs-toggle="modal"
+                                                        <button class="btn btn-outline-secondary btnViewHistory"
+                                                            title="View Stock History" data-bs-toggle="modal"
                                                             data-id="<?php echo $row->inventoryId ?>"
-                                                            data-bs-target="#archiveCategoryModal">
-                                                            <i class="fa-solid fa-archive"></i>
+                                                            product-id="<?php echo $row->productId ?>"
+                                                            data-bs-target="#viewInventoryHistoryModal">
+                                                            <i class="fas fa-history"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -305,6 +305,43 @@
             </form>
         </div>
     </div>
+
+
+    <div class="modal fade" data-bs-keyboard="false" data-bs-backdrop="static" id="viewInventoryHistoryModal"
+        tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form>
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inventory History</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="container p-3">
+                        <input type="hidden" class="form-control" id="txtHistoryInventoryIdStockOut"
+                            name="txtHistoryInventoryIdStockOut">
+                        <input type="hidden" class="form-control" id="txtHistoryProductIdStockOut"
+                            name="txtHistoryProductIdStockOut">
+                        <h4 class=" mt-3">Stock In History</h4> <!-- Add the title here -->
+                        <div id="stockInTableContainer" class="border p-2 rounded">
+                            <table id="stockInTableHistory" class="display" style="width:100%"></table>
+                        </div>
+                        <h4 class="mt-3">Stock Out History</h4> <!-- Add the title here -->
+                        <div id="stockOutTableContainer" class="border p-2 rounded">
+                            <table id="stockOutTableHistory" class="display" style="width:100%"></table>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
 
 </div>
 </div>
@@ -697,6 +734,88 @@
     });
 
 
+    $('body').on('click', '.btnViewHistory', function () {
+        var inventoryId = $(this).attr('data-id');
+        var productId = $(this).attr('product-id');
+        $('#viewInventoryHistoryModal #txtHistoryInventoryIdStockOut').val(inventoryId);
+        $('#viewInventoryHistoryModal #txtHistoryProductIdStockOut').val(productId);
+        $.ajax({
+            url: 'view-stockInHistory',
+            type: "GET",
+            dataType: 'json',
+            data: { productId: productId },
+            success: function (res) {
+                document.getElementById('stockInTableContainer').innerHTML = "";
+                document.getElementById('stockInTableContainer').innerHTML = `<table id="stockInTableHistory" class="display" style="width:100%"></table>`;
+
+                document.getElementById('stockOutTableContainer').innerHTML = "";
+                document.getElementById('stockOutTableContainer').innerHTML = `<table id="stockOutTableHistory" class="display" style="width:100%"></table>`;
+
+
+
+
+
+                let stockInDataSet = [];
+                res.resultStockIn.forEach(element => {
+                    stockInDataSet.push([
+                        element.numberOfStockIn,
+                        element.stockInDate,
+                        element.stockInExpirationDate,
+                    ]);
+                });
+
+                const stockInTable = $('#stockInTableHistory').DataTable({
+                    data: stockInDataSet,
+                    columns: [
+                        { title: 'Number of Stock In' },
+                        { title: 'Stock In Date' },
+                        { title: 'Stock In Expiration Date' },
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2], // the first column
+                            className: 'text-center', // the CSS class to apply
+                        },
+                    ],
+                    order: [[0, 'desc']]
+                });
+
+
+
+
+                let stockOutDataSet = [];
+                res.resultStockOut.forEach(element => {
+                    stockOutDataSet.push([
+                        element.stockOutQuantity,
+                        element.reason,
+                        element.stockOutDate,
+                    ]);
+                });
+
+                const stockOutTable = $('#stockOutTableHistory').DataTable({
+                    data: stockOutDataSet,
+                    columns: [
+                        { title: 'Number of Stock Out' },
+                        { title: 'Reason' },
+                        { title: 'Stock Out Date' },
+                    ],
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2], // the first column
+                            className: 'text-center', // the CSS class to apply
+                        },
+                    ],
+                    order: [[0, 'desc']]
+                });
+
+
+
+
+            },
+            error: function (data) {
+            }
+        });
+    });
 
 
 

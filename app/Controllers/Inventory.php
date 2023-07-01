@@ -198,57 +198,69 @@ class Inventory extends BaseController
     }
 
     public function stockOut()
-{
-    $productId = $this->request->getPost('productId');
-    $quantity = $this->request->getPost('quantity');
-    $expirationDate = $this->request->getPost('expirationDate');
-    $supplierId = $this->request->getPost('supplierId');
-    $inventoryId = $this->request->getPost('inventoryId');
-    $reason = $this->request->getPost('reason');
-    $stockOutModel = new StockOutModel();
-    $inventoryModel = new InventoryModel();
+    {
+        $productId = $this->request->getPost('productId');
+        $quantity = $this->request->getPost('quantity');
+        $expirationDate = $this->request->getPost('expirationDate');
+        $supplierId = $this->request->getPost('supplierId');
+        $inventoryId = $this->request->getPost('inventoryId');
+        $reason = $this->request->getPost('reason');
+        $stockOutModel = new StockOutModel();
+        $inventoryModel = new InventoryModel();
 
-    try {
-        $stockOutModel->transStart();
+        try {
+            $stockOutModel->transStart();
 
-        $data = [
-            'productIdentification' => $productId,
-            'stockOutQuantity' => $quantity,
-            'stockOutDate' => date('Y-m-d H:i:s'),
-            'reason' => $reason
-        ];
+            $data = [
+                'productIdentification' => $productId,
+                'stockOutQuantity' => $quantity,
+                'stockOutDate' => date('Y-m-d H:i:s'),
+                'reason' => $reason
+            ];
 
-        $inserted = $stockOutModel->insert($data);
+            $inserted = $stockOutModel->insert($data);
 
-        if ($inserted) {
-            $inventory = $inventoryModel->find($inventoryId);
+            if ($inserted) {
+                $inventory = $inventoryModel->find($inventoryId);
 
-            if ($reason === 'Damaged') {
-                $damaged = $inventory['damaged'] + $quantity;
-                $inventoryModel->update($inventoryId, ['damaged' => $damaged]);
-            } elseif ($reason === 'Lost') {
-                $lost = $inventory['lost'] + $quantity;
-                $inventoryModel->update($inventoryId, ['lost' => $lost]);
-            } elseif ($reason === 'Expired') {
-                $expired = $inventory['expired'] + $quantity;
-                $inventoryModel->update($inventoryId, ['expired' => $expired]);
-            } elseif ($reason === 'Sold') {
-                $sold = $inventory['sold'] + $quantity;
-                $inventoryModel->update($inventoryId, ['sold' => $sold]);
+                if ($reason === 'Damaged') {
+                    $damaged = $inventory['damaged'] + $quantity;
+                    $inventoryModel->update($inventoryId, ['damaged' => $damaged]);
+                } elseif ($reason === 'Lost') {
+                    $lost = $inventory['lost'] + $quantity;
+                    $inventoryModel->update($inventoryId, ['lost' => $lost]);
+                } elseif ($reason === 'Expired') {
+                    $expired = $inventory['expired'] + $quantity;
+                    $inventoryModel->update($inventoryId, ['expired' => $expired]);
+                } elseif ($reason === 'Sold') {
+                    $sold = $inventory['sold'] + $quantity;
+                    $inventoryModel->update($inventoryId, ['sold' => $sold]);
+                }
+                $stockOutModel->transCommit();
+                echo 'Transaction success.';
+            } else {
+                echo 'Transaction failed.';
+                $stockOutModel->transRollback();
             }
-            $stockOutModel->transCommit();
-            echo 'Transaction success.';
-        } else {
-            echo 'Transaction failed.';
+        } catch (\Exception $e) {
+            echo 'Transaction failed. Error: ' . $e->getMessage();
             $stockOutModel->transRollback();
         }
-    } catch (\Exception $e) {
-        echo 'Transaction failed. Error: ' . $e->getMessage();
-        $stockOutModel->transRollback();
     }
-}
 
-
+    public function viewHistoryStockIn()
+    {
+        $productId = $this->request->getVar('productId');
+        $inventoryModel = new InventoryModel();
+        $resultStockIn = $inventoryModel->getProductsWithStockIn($productId);
+        $resultStockOut = $inventoryModel->getProductsWithStockOut($productId);
+    
+        $data["resultStockIn"] = $resultStockIn;
+        $data["resultStockOut"] = $resultStockOut;
+    
+        return $this->response->setJSON($data);
+    }
+    
 
 
 }
