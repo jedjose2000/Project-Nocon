@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#productTable').DataTable({
         "columnDefs": [
             // { "orderable": false, "targets": 0 },
-            { "orderable": false, "targets": 9 }
+            { "orderable": false, "targets": 8 }
         ],
         order: [[1, 'asc']]
     });
@@ -101,6 +101,9 @@ $("#formProduct").validate({
         },
         txtCLQ: {
             required: true,
+        },
+        txtCategory:{
+            required:true
         }
     },
     messages: {
@@ -118,6 +121,9 @@ $("#formProduct").validate({
         txtCLQ: {
             required: "Please enter a critical level quantity.",
         },
+        txtCategory:{
+            required:"Please input a category"
+        }
     },
     errorPlacement: function (error, element) {
         if (element.attr("name") === "txtProduct") {
@@ -134,6 +140,10 @@ $("#formProduct").validate({
         else if (element.attr("name") === "txtCLQ") {
             $(".product-clq-error").html(error);
             $(".product-clq-error");
+        }
+        else if (element.attr("name") === "txtCategory") {
+            $(".product-category-error").html(error);
+            $(".product-category-error");
         }
     },
     highlight: function (element) {
@@ -261,6 +271,9 @@ $("#formUpdateProduct").validate({
         },
         txtUpdateCLQ: {
             required: true,
+        },
+        txtUpdateCategory:{
+            required:true
         }
     },
     messages: {
@@ -278,6 +291,9 @@ $("#formUpdateProduct").validate({
         txtUpdateCLQ: {
             required: "Please enter a critical level quantity.",
         },
+        txtUpdateCategory:{
+            required: "Please enter a category.",
+        }
     },
     errorPlacement: function (error, element) {
         if (element.attr("name") === "txtUpdateProduct") {
@@ -294,6 +310,10 @@ $("#formUpdateProduct").validate({
         else if (element.attr("name") === "txtUpdateCLQ") {
             $(".product-clq-error").html(error);
             $(".product-clq-error");
+        }
+        else if (element.attr("name") === "txtUpdateCategory") {
+            $(".product-category-error").html(error);
+            $(".product-category-error");
         }
     },
     highlight: function (element) {

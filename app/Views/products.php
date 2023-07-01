@@ -49,7 +49,6 @@
                                                 <th class="text-center">Product Name</th>
                                                 <th class="text-center">Brand</th>
                                                 <th class="text-center">Category</th>
-                                                <th class="text-center">Supplier</th>
                                                 <th class="text-center">Unit</th>
                                                 <th class="text-center">Buy Price</th>
                                                 <th class="text-center">Sell Price</th>
@@ -79,9 +78,6 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->categoryName ?>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <?php echo $row->supplierName ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->unit ?>
@@ -258,15 +254,7 @@
                                         <option value="<?php echo $category->categoryId; ?>"><?php echo $category->categoryName; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label for="txtSupplier">Supplier<span class="required"
-                                        style="color:red">*</span></label>
-                                <select class="form-select" name="txtSupplier" id="txtSupplier" aria-label="Supplier">
-                                    <?php foreach ($supplier as $supplier): ?>
-                                        <option value="<?php echo $supplier->supplierId; ?>"><?php echo $supplier->supplierName; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="invalid-feedback product-category-error"></div>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -383,16 +371,7 @@
                                         <option value="<?php echo $updateCategory->categoryId; ?>"><?php echo $updateCategory->categoryName; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label for="txtUpdateSupplier">Supplier<span class="required"
-                                        style="color:red">*</span></label>
-                                <select class="form-select" name="txtUpdateSupplier" id="txtUpdateSupplier"
-                                    aria-label="Supplier">
-                                    <?php foreach ($updateSupplier as $updateSupplier): ?>
-                                        <option value="<?php echo $updateSupplier->supplierId; ?>"><?php echo $updateSupplier->supplierName; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="invalid-feedback product-category-error"></div>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -548,16 +527,6 @@
                                     aria-label="Category" disabled>
                                     <?php foreach ($viewCategory as $viewCategory): ?>
                                         <option value="<?php echo $viewCategory->categoryId; ?>"><?php echo $viewCategory->categoryName; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <label for="txtViewSupplier">Supplier<span class="required"
-                                        style="color:red">*</span></label>
-                                <select class="form-select" name="txtViewSupplier" id="txtViewSupplier"
-                                    aria-label="Supplier" disabled>
-                                    <?php foreach ($viewSupplier as $viewSupplier): ?>
-                                        <option value="<?php echo $viewSupplier->supplierId; ?>"><?php echo $viewSupplier->supplierName; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

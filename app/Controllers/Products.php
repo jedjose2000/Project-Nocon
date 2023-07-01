@@ -86,7 +86,6 @@ class Products extends BaseController
                 'productName' => $productName,
                 'productBrand' => $brandName,
                 'categoryID' => $categoryId,
-                'supplierID' => $supplierId,
                 'productDescription' => $productDescription,
                 'unit' => $unit,
                 'buyPrice' => $buyPrice,

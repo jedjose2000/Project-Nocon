@@ -60,6 +60,15 @@ $routes->get('/view-product/(:num)', 'Products::viewProduct/$1');
 $routes->post('/checkUpdateProductNameExists', 'Products::checkUpdateProductNameExists');
 $routes->post('/archiveAllProducts', 'Products::archiveAllProducts');
 $routes->post('/getIDProduct', 'Products::getIDProduct');
+
+
+$routes->post('/checkIfWillExpire', 'Inventory::checkIfWillExpire');
+$routes->post('/insertDataInventory', 'Inventory::insertDataInventory');
+$routes->get('/view-stockIn/(:num)', 'Inventory::viewStockIn/$1');
+$routes->post('/stockIn', 'Inventory::stockIn');
+$routes->post('/stockOut', 'Inventory::stockOut');
+$routes->post('/checkIfStockIsSufficient', 'Inventory::checkIfStockIsSufficient');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
