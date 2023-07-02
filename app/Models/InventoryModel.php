@@ -68,4 +68,16 @@ class InventoryModel extends Model
     }
 
 
+    public function getInventoryTotalStock($productId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblinventory');
+        $builder->select('*, (tblinventory.totalQuantity - tblinventory.sold - tblinventory.damaged - tblinventory.lost - tblinventory.expired) AS totalStockIn');
+        $builder->where('tblinventory.productID', $productId);
+        $query = $builder->get();
+        $result = $query->getRow();
+        return $result;
+    }
+
+
 }

@@ -72,6 +72,11 @@ $routes->get('/view-stockInHistory', 'Inventory::viewHistoryStockIn');
 $routes->post('/archiveAllInventory', 'Inventory::archiveAllInventory');
 
 
+$routes->get('/pos', 'PosTeller::index');
+$routes->post('/checkIfStockIsSufficientTeller', 'PosTeller::checkIfStockIsSufficientTeller');
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
