@@ -100,4 +100,17 @@
   display: none;
 }
 
+.payment-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.change-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+
 
