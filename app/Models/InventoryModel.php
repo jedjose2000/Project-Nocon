@@ -8,7 +8,7 @@ class InventoryModel extends Model
 {
     protected $table = 'tblinventory';
     protected $primaryKey = 'inventoryId';
-    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate','isInventoryArchived'];
+    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate', 'isInventoryArchived'];
 
     public function getProductsWithInventoryAndProducts()
     {
@@ -30,12 +30,14 @@ class InventoryModel extends Model
     {
         $db = \Config\Database::connect();
         $builder = $db->table('tblstockin');
+        $builder->select('*');
         $builder->where('productId', $productId);
+        $builder->join('tblsupplier', 'tblsupplier.supplierId = tblstockin.supplierID');
         $query = $builder->get();
         $result = $query->getResult();
         return $result;
     }
-    
+
 
     public function getProductsWithStockOut($productId)
     {
@@ -78,6 +80,7 @@ class InventoryModel extends Model
         $result = $query->getRow();
         return $result;
     }
+
 
 
 }

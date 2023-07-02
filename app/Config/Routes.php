@@ -74,7 +74,7 @@ $routes->post('/archiveAllInventory', 'Inventory::archiveAllInventory');
 
 $routes->get('/pos', 'PosTeller::index');
 $routes->post('/checkIfStockIsSufficientTeller', 'PosTeller::checkIfStockIsSufficientTeller');
-
+$routes->post('/createTheOrder', 'PosTeller::createTheOrder');
 
 
 /*

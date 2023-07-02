@@ -61,7 +61,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <button title="Add Item" class="btn btn-outline-primary btnAddItem"
-                                                        data-id="<?php echo $row->inventoryId ?>"
+                                                        data-id="<?php echo $row->productId ?>"
                                                         product-id="<?php echo $row->productId ?>"
                                                         total-stock="<?php echo $row->totalStockIn ?>" id="btnAddItem">
                                                         + Add
@@ -218,7 +218,6 @@
             var productId = $(this).attr('data-id');
             var totalStock = $(this).attr('total-stock');
             var addButton = $(this);
-
             $.ajax({
                 url: '/checkIfStockIsSufficientTeller',
                 type: 'POST',
@@ -237,7 +236,7 @@
                             if (existingQuantityInput.length > 0) {
                                 var existingQuantity = parseInt(existingQuantityInput.val().trim() || '0', 10);
                                 var newQuantity = existingQuantity + parseInt(itemQuantity, 10);
-                                var newProductId = addButton.attr('data-id');
+                                // var newProductId = addButton.attr('data-id');
 
                                 if (newQuantity <= totalStock) {
                                     var newTotalPrice = price * newQuantity;
@@ -257,11 +256,7 @@
                                 console.log("existingQuantity Input not found.");
                             }
                         } else {
-
-
                             var rowCount = $('#transactionTable tbody tr').length;
-
-                            // Enable or disable the txtPayment input field based on the row count
                             if (rowCount >= 0) {
                                 $('#btnCreateOrder').prop('disabled', false);
                                 $('#btnCancel').prop('disabled', false);
@@ -271,9 +266,6 @@
                                 $('#btnCancel').prop('disabled', true);
                                 $('#txtPayment').prop('disabled', true);
                             }
-
-
-
                             var newRow = '<tr id="' + productId + '" class="transaction-row">' +
                                 '<td class="text-center">' + productName + '</td>' +
                                 '<td class="text-center">&#8369;' + price + '</td>' +
@@ -283,12 +275,16 @@
                                 '<button title="Remove Item" class="btn btn-outline-danger btnRemoveItem" data-idNew="' + productId + '">- Remove</button>' +
                                 '</td>' +
                                 '</tr>';
-
                             $('#transactionTable tbody').append(newRow);
                             alertify.success('Product Added!');
-
                             var transactionTable = $('#transactionTable').DataTable();
                             transactionTable.rows.add($(newRow)).draw();
+                            var totalPrice = 0;
+                            $('#transactionTable tbody tr').each(function () {
+                                var rowTotal = parseFloat($(this).find('.total-price').text().replace(/[^\d.-]/g, ''));
+                                totalPrice += rowTotal;
+                            });
+                            $('#totalPriceFooter').html('&#8369; ' + totalPrice.toFixed(2));
                         }
                     } else {
                         alertify.error('Quantity exceeds the available stocks! dito');
@@ -438,11 +434,47 @@
             }
         });
 
+
         $(document).on('click', '.createOrder', function () {
-            console.log("hello");
+            var rows = $('#transactionTable tbody').find('tr');
+            var rowDataArray = [];
+            rows.each(function () {
+                var row = $(this);
+                var productId = row.attr('id');
+                var productName = row.find('td:first-child').text().trim();
+                var price = row.find('td:nth-child(2)').text().trim().replace(/[^\d.-]/g, '');
+                var quantityInput = row.find('input[name="itemNewQuantity"]');
+                var quantity = quantityInput.val().trim();
+                var total = row.find('.total-price').text().trim().replace(/[^\d.-]/g, '');
+
+                // Create an object with row data and push it into the array
+                var rowData = {
+                    productId: productId,
+                    productName: productName,
+                    price: price,
+                    quantity: quantity,
+                    total: total
+                };
+                rowDataArray.push(rowData);
+            });
+            $.ajax({
+                url: '/createTheOrder',
+                type: 'POST',
+                data: { rowDataArray: rowDataArray },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
 
-        
+
+
+
+
+
     </script>
 
 
