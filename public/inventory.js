@@ -506,6 +506,7 @@ $('body').on('click', '.btnViewHistory', function () {
                 let expirationDate = element.stockInExpirationDate !== '0000-00-00' ? new Date(element.stockInExpirationDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Non-Perishable';
                 stockInDataSet.push([
                     element.numberOfStockIn,
+                    element.supplierName,
                     stockInDate,
                     expirationDate,
                 ]);
@@ -515,6 +516,7 @@ $('body').on('click', '.btnViewHistory', function () {
                 data: stockInDataSet,
                 columns: [
                     { title: 'Number of Stock In' },
+                    { title: 'Supplier' },
                     { title: 'Stock In Date' },
                     { title: 'Stock In Expiration Date' },
                 ],

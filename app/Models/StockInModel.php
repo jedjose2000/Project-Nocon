@@ -10,4 +10,7 @@ class StockInModel extends Model
     protected $primaryKey = 'stockId';
     protected $allowedFields = ['stockId', 'productId', 'numberOfStockIn', 'stockInDate', 'stockInExpirationDate','supplierID'];
 
+    
 }
+
+
