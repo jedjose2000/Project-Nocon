@@ -113,4 +113,26 @@
 }
 
 
+.receipt-input input[type=text] {
+  background: none;
+  margin-left: -10px;
+  border: none;
+  text-decoration: underline;
+}
 
+#productReceiptTable_length {
+  display: none;
+}
+
+
+#productReceiptTable_paginate {
+  display: none;
+}
+
+#productReceiptTable_filter {
+  display: none;
+}
+
+#productReceiptTable_info {
+  display: none;
+}

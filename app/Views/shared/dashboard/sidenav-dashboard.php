@@ -24,31 +24,31 @@
         </li>
         <li class="nav-item">
           <a href="<?php echo base_url('supplier'); ?>" class="nav-link ">
-            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <i class="nav-icon fa-solid fa-truck-field"></i>
             <p>Supplier</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="<?php echo base_url('product'); ?>" class="nav-link ">
-            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <i class="nav-icon fa-solid fa-bag-shopping"></i>
             <p>Products</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="<?php echo base_url('inventory'); ?>" class="nav-link ">
-            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <i class="nav-icon fa-solid fa-warehouse"></i>
             <p>Inventory</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="<?php echo base_url('pos'); ?>" class="nav-link ">
-            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <i class="nav-icon fa-solid fa-calculator"></i>
             <p>POS Teller</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="<?php echo base_url('transaction'); ?>" class="nav-link ">
-            <i class="fa-regular fa-rectangle-list order-icon"></i>
+            <i class="nav-icon fa-solid fa-file-lines"></i>
             <p>Reports</p>
           </a>
         </li>

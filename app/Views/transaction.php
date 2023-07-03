@@ -215,45 +215,54 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="container p-3">
-                        <div class="mb-4">
-                            <label for="txtReceiptCode" class="form-label">Receipt Code</label>
-                            <input type="text" class="form-control" id="txtReceiptCode" name="txtReceiptCode"
-                                maxlength="5" disabled>
-                            <div class="invalid-feedback inventory-quantity-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtTotalAmount" class="form-label">Total Payment</label>
-                            <input type="text" class="form-control" id="txtTotalAmount" name="txtTotalAmount"
-                                maxlength="5" disabled>
-                            <div class="invalid-feedback inventory-quantity-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtTotalPrice" class="form-label">Total Price</label>
-                            <input type="text" class="form-control" id="txtTotalPrice" name="txtTotalPrice"
-                                maxlength="5" disabled>
-                            <div class="invalid-feedback inventory-quantity-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtChange" class="form-label">Change</label>
-                            <input type="text" class="form-control" id="txtChange" name="txtChange" maxlength="5"
-                                disabled>
-                            <div class="invalid-feedback inventory-quantity-error"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="txtDiscount" class="form-label">Discount</label>
-                            <input type="text" class="form-control" id="txtDiscount" name="txtDiscount" maxlength="5"
-                                disabled>
-                            <div class="invalid-feedback inventory-quantity-error"></div>
-                        </div>
-                        <input type="hidden" class="form-control" id="txtReceiptId" name="txtReceiptId">
-                        <h4 class=" mt-3">Products</h4> <!-- Add the title here -->
-                        <div id="productReceiptContainer" class="border p-2 rounded">
-                            <table id="productReceiptTable" class="display" style="width:100%"></table>
-                        </div>
+                    <div class="row gx-3 p-3">
+                        <div class="col">
 
+                            <div class="container border p-3">
+                                <h4 class=" mt-3">Receipt</h4> <!-- Add the title here -->
+                                <div class="receipt-input ms-3 mb-4">
+                                    <label for="txtReceiptCode" class="form-label">Receipt Code</label>
+                                    <input type="text" class="form-control" id="txtReceiptCode" name="txtReceiptCode"
+                                        maxlength="5" disabled>
+                                    <div class="invalid-feedback inventory-quantity-error"></div>
+                                </div>
+                                <div class="receipt-input ms-3 mb-4">
+                                    <label for="txtTotalAmount" class="form-label">Total Payment</label>
+                                    <input type="text" class="form-control" id="txtTotalAmount" name="txtTotalAmount"
+                                        maxlength="5" disabled>
+                                    <div class="invalid-feedback inventory-quantity-error"></div>
+                                </div>
+
+                                <div class="receipt-input ms-3 mb-4">
+                                    <label for="txtChange" class="form-label">Change</label>
+                                    <input type="text" class="form-control" id="txtChange" name="txtChange"
+                                        maxlength="5" disabled>
+                                    <div class="invalid-feedback inventory-quantity-error"></div>
+                                </div>
+                                <div class="receipt-input ms-3 mb-4">
+                                    <label for="txtDiscount" class="form-label">Discount</label>
+                                    <input type="text" class="form-control" id="txtDiscount" name="txtDiscount"
+                                        maxlength="5" disabled>
+                                    <div class="invalid-feedback inventory-quantity-error"></div>
+                                </div>
+                                <div class="receipt-input ms-3 mb-4">
+                                    <label for="txtTotalPrice" class="form-label">Total Price</label>
+                                    <input type="text" class="form-control" id="txtTotalPrice" name="txtTotalPrice"
+                                        maxlength="5" disabled>
+                                    <div class="invalid-feedback inventory-quantity-error"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="container border p-3">
+                                <input type="hidden" class="form-control" id="txtReceiptId" name="txtReceiptId">
+                                <h4 class=" mt-3">Products</h4> <!-- Add the title here -->
+                                <div id="productReceiptContainer" class="border p-2 rounded">
+                                    <table id="productReceiptTable" class="display" style="width:100%"></table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>

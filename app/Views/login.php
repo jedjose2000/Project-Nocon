@@ -45,7 +45,8 @@
                                     class="form-control form-control" placeholder="Enter password" required />
                             </div>
                             <div class="d-flex justify-content-end align-items-center">
-                                <a href="#" class="forgot-password text-body fw-bold">Forgot password?</a>
+                                <a href="<?php echo base_url('forgot-password') ?>"
+                                    class="forgot-password text-body fw-bold">Forgot password?</a>
                             </div>
                             <div class="text-center mt-4 pt-2">
                                 <button type="submit" class="btn btn-primary "
