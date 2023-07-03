@@ -20,6 +20,7 @@ class TransactionHolderModel extends Model
         }
         return 0; // Return 0 if no records exist
     }
+    
     public function getLastStockInDate($productId)
     {
         $db = \Config\Database::connect();

@@ -85,7 +85,7 @@
                                 <?php if ($permissionChecker->hasPermission('orderListAdd', 'Add Order')): ?>
                                     <div class="text-end mb-2">
                                         <button disabled class="btn btn-success createOrder" id="btnCreateOrder">
-                                            <i class="fas fa-money-bill-wave"></i> Proceed
+                                            <i class="fas fa-money-bill-wave"></i> Pay
                                         </button>
                                         <button disabled class="cancelOrder btn btn-danger flex-end" id="btnCancel"><i
                                                 class="fa-solid fa-person-circle-minus me-2"></i>Cancel</button>
@@ -97,8 +97,14 @@
                                         <label for="txtPayment" class="form-label">Payment<span class="required"
                                                 style="color:red">*</span></label>
                                         <input type="text" class="form-control" id="txtPayment" name="txtPayment"
-                                            placeholder="Enter Payment" maxlength="40" size="2" required disabled>
+                                            placeholder="Enter Payment" maxlength="5" size="2" required disabled>
                                         <div class="invalid-feedback payment-error"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="txtDiscount" class="form-label">Discount(%)</label>
+                                        <input type="text" class="form-control" id="txtDiscount" name="txtDiscount"
+                                            maxlength="3" size="2" disabled value="0" max="100">
+                                        <div class="invalid-feedback change-error"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="txtChange" class="form-label">Change<span class="required"
@@ -179,11 +185,11 @@
 
             // Enable or disable the txtPayment input field based on the row count
             if (rowCount > 0) {
-                $('#btnCreateOrder').prop('disabled', false);
+                $('#txtDiscount').prop('disabled', false);
                 $('#btnCancel').prop('disabled', false);
                 $('#txtPayment').prop('disabled', false);
             } else {
-                $('#btnCreateOrder').prop('disabled', true);
+                $('#txtDiscount').prop('disabled', true);
                 $('#btnCancel').prop('disabled', true);
                 $('#txtPayment').prop('disabled', true);
             }
@@ -191,6 +197,8 @@
             window.localStorage.setItem('show_popup_update', 'false');
             window.localStorage.setItem('show_popup_add', 'false');
             window.localStorage.setItem('show_popup_failed', 'false');
+            window.localStorage.setItem('show_popup_transactionSuccess', 'false');
+
         });
 
         if (window.localStorage.getItem('show_popup_update') == 'true') {
@@ -208,6 +216,11 @@
             window.localStorage.setItem('show_popup_failed', 'false');
         }
 
+        if (window.localStorage.getItem('show_popup_transactionSuccess') == 'true') {
+            alertify.success('Transaction Success!');
+            window.localStorage.setItem('show_popup_transactionSuccess', 'false');
+        }
+
 
 
 
@@ -221,13 +234,14 @@
             $.ajax({
                 url: '/checkIfStockIsSufficientTeller',
                 type: 'POST',
-                data: { productId: productId, quantity: quantity },
+                data: { productId: productId, quantity: quantity, totalStock: totalStock },
                 success: function (data) {
                     if (data.message === 'Transaction success.') {
                         var productId = data.data.productID;
                         var itemQuantity = data.data.quantity;
                         var productName = data.data.productName;
                         var price = data.data.price;
+                        var totalStock = data.data.totalStock;
                         var totalPrice = price * itemQuantity;
                         var existingRow = $('#transactionTable tbody').find('#' + productId);
 
@@ -258,11 +272,11 @@
                         } else {
                             var rowCount = $('#transactionTable tbody tr').length;
                             if (rowCount >= 0) {
-                                $('#btnCreateOrder').prop('disabled', false);
+                                $('#txtDiscount').prop('disabled', false);
                                 $('#btnCancel').prop('disabled', false);
                                 $('#txtPayment').prop('disabled', false);
                             } else {
-                                $('#btnCreateOrder').prop('disabled', true);
+                                $('#txtDiscount').prop('disabled', true);
                                 $('#btnCancel').prop('disabled', true);
                                 $('#txtPayment').prop('disabled', true);
                             }
@@ -272,7 +286,7 @@
                                 '<td class="text-center item-quantity-input"><input type="text" class="text-center" id="itemNewQuantity" name="itemNewQuantity" maxlength="5" size="4" newProductId="' + productId + '" newTotalStock="' + totalStock + '"value=' + itemQuantity + '></td>' +
                                 '<td class="text-center total-price">&#8369;' + totalPrice.toFixed(2) + '</td>' +
                                 '<td class="text-center">' +
-                                '<button title="Remove Item" class="btn btn-outline-danger btnRemoveItem" data-idNew="' + productId + '">- Remove</button>' +
+                                '<button title="Remove Item" class="btn btn-outline-danger btnRemoveItem" data-idNew="' + productId + '" data-totalStocks="' + totalStock + '">- Remove</button>' +
                                 '</td>' +
                                 '</tr>';
                             $('#transactionTable tbody').append(newRow);
@@ -310,7 +324,7 @@
             $.ajax({
                 url: '/checkIfStockIsSufficientTeller',
                 type: 'POST',
-                data: { productId: productId, quantity: quantity },
+                data: { productId: productId, quantity: quantity, totalStock: totalStock },
                 success: function (data) {
                     if (data.message === 'Transaction success.') {
                         var productId = data.data.productID;
@@ -361,6 +375,10 @@
             $('#' + productId + '.transaction-row').remove();
             var transactionTable = $('#transactionTable').DataTable();
             transactionTable.row('#' + productId).remove().draw();
+            $('#txtDiscount').val('');
+            $('#txtPayment').val('');
+            $('#txtChange').val('');
+
             alertify.success('Product Removed!');
             var totalPrice = 0;
             $('#transactionTable tbody tr').each(function () {
@@ -368,6 +386,7 @@
                 totalPrice += rowTotal;
             });
             $('#totalPriceFooter').html('&#8369; ' + totalPrice.toFixed(2));
+
         });
 
 
@@ -381,14 +400,17 @@
 
             // Enable or disable the txtPayment input field based on the row count
             if (rowCount > 0) {
-                $('#btnCreateOrder').prop('disabled', false);
+                $('#txtDiscount').prop('disabled', false).val('');
                 $('#btnCancel').prop('disabled', false);
-                $('#txtPayment').prop('disabled', false);
+                $('#txtPayment').prop('disabled', false).val('');
+                $('#txtChange').val('');
             } else {
-                $('#btnCreateOrder').prop('disabled', true);
+                $('#txtDiscount').prop('disabled', true).val('');
                 $('#btnCancel').prop('disabled', true);
-                $('#txtPayment').prop('disabled', true);
+                $('#txtPayment').prop('disabled', true).val('');
+                $('#txtChange').val('');
             }
+
         });
 
 
@@ -401,14 +423,15 @@
 
             // Enable or disable the txtPayment input field based on the row count
             if (rowCount > 0) {
-                $('#btnCreateOrder').prop('disabled', false);
+                $('#txtDiscount').prop('disabled', false);
                 $('#btnCancel').prop('disabled', false);
                 $('#txtPayment').prop('disabled', false);
             } else {
-                $('#btnCreateOrder').prop('disabled', true);
+                $('#txtDiscount').prop('disabled', true);
                 $('#btnCancel').prop('disabled', true);
                 $('#txtPayment').prop('disabled', true);
             }
+
         });
 
         $(document).on("keypress", "#itemNewQuantity", function (event) {
@@ -437,6 +460,10 @@
 
         $(document).on('click', '.createOrder', function () {
             var rows = $('#transactionTable tbody').find('tr');
+            var payment = $('#txtPayment').val();
+            var change = $('#txtChange').val();
+            var txtDiscount = $('#txtDiscount').val();
+            var totalPrice = parseFloat($('#totalPriceFooter').text().replace(/[^0-9.-]+/g, ""));
             var rowDataArray = [];
             rows.each(function () {
                 var row = $(this);
@@ -446,29 +473,120 @@
                 var quantityInput = row.find('input[name="itemNewQuantity"]');
                 var quantity = quantityInput.val().trim();
                 var total = row.find('.total-price').text().trim().replace(/[^\d.-]/g, '');
-
+                var totalStockIn = row.find('.btnRemoveItem').attr('data-totalStocks');
                 // Create an object with row data and push it into the array
                 var rowData = {
                     productId: productId,
                     productName: productName,
                     price: price,
                     quantity: quantity,
-                    total: total
+                    total: total,
+                    totalStock: totalStockIn
                 };
                 rowDataArray.push(rowData);
             });
+            console.log(rowDataArray);
             $.ajax({
                 url: '/createTheOrder',
                 type: 'POST',
-                data: { rowDataArray: rowDataArray },
+                data: { rowDataArray: rowDataArray, payment: payment, change: change, txtDiscount: txtDiscount, totalPrice: totalPrice },
                 success: function (data) {
-                    console.log(data);
+                    window.localStorage.setItem('show_popup_transactionSuccess', 'true');
+                    window.location.reload();
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr.responseText);
                 }
             });
         });
+
+        $(document).on('input', 'input[name="txtPayment"]', function () {
+            var totalPrice = parseFloat($('#totalPriceFooter').text().replace(/[^0-9.-]+/g, ""));
+            var payment = parseFloat($(this).val()) || 0; // Use default value of 0 if payment is null or empty
+            var txtDiscount = $('#txtDiscount').val();
+            var discount = parseFloat(txtDiscount) / 100;
+
+            var discountedTotal = totalPrice - (totalPrice * discount);
+            var change = payment - discountedTotal;
+
+            if (isNaN(change)) {
+                change = 0; // Set change to 0 if it is NaN
+            }
+
+            if (payment < totalPrice || txtDiscount > 100) {
+                $('#btnCreateOrder').prop('disabled', true);
+            } else {
+                $('#btnCreateOrder').prop('disabled', false);
+            }
+
+            $('#txtChange').val(change.toFixed(2));
+        });
+
+        $(document).on('input', 'input[name="txtDiscount"]', function () {
+            var totalPrice = parseFloat($('#totalPriceFooter').text().replace(/[^0-9.-]+/g, ""));
+            var txtDiscount = parseFloat($(this).val()) || 0; // Use default value of 0 if discount is null or empty
+            var payment = parseFloat($('#txtPayment').val()) || 0; // Use default value of 0 if payment is null or empty
+
+            // Adjust the discount calculation
+            var discount = (totalPrice * txtDiscount) / 100;
+
+            var discountedTotal = totalPrice - discount;
+            var change = payment - discountedTotal;
+
+            if (isNaN(change)) {
+                change = 0; // Set change to 0 if it is NaN
+            }
+
+            if (payment < totalPrice || txtDiscount > 100) {
+                $('#btnCreateOrder').prop('disabled', true);
+            } else {
+                $('#btnCreateOrder').prop('disabled', false);
+            }
+
+            $('#txtChange').val(change.toFixed(2));
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+        document.getElementById("txtPayment").addEventListener("keypress", function (event) {
+            var key = event.keyCode || event.which;
+            var keychar = String.fromCharCode(key);
+            var regex = /[0-9]/;
+
+            if (!regex.test(keychar)) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+
+        document.getElementById("txtDiscount").addEventListener("keypress", function (event) {
+            var key = event.keyCode || event.which;
+            var keychar = String.fromCharCode(key);
+            var regex = /[0-9]/;
+
+            if (!regex.test(keychar)) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        // $(document).on('input', 'input[name="txtDiscount"]', function () {
+        //     var inputValue = $(this).val();
+        //     var formattedValue = parseFloat(inputValue) / 100;
+
+        //     console.log(formattedValue);
+        //     $(this).val(formattedValue);
+        // });
 
 
 

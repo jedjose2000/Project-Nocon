@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Models\InventoryModel;
 use App\Models\ProductModel;
+use App\Models\ReceiptModel;
 use App\Models\StockInModel;
+use App\Models\StockOutModel;
 use App\Models\TransactionHolderModel;
 
 date_default_timezone_set('Asia/Singapore');
@@ -83,7 +85,7 @@ class PosTeller extends BaseController
         $inventoryModel = new InventoryModel();
         $txtQuantity = $this->request->getVar('quantity');
         $txtProductId = $this->request->getVar('productId');
-
+        $totalStock = $this->request->getVar('totalStock');
         // $resultQuantity = $inventoryModel->getInventoryTotalStock($txtProductId);
         // $totalQuantity = $resultQuantity['totalStockIn'];
         $result = $inventoryModel->checkStockSufficiency($txtProductId, $txtQuantity);
@@ -108,6 +110,7 @@ class PosTeller extends BaseController
                     'quantity' => $txtQuantity,
                     'total' => $totalPrice,
                     'productName' => $productName,
+                    'totalStock' => $totalStock
                     // 'totalQuantity' => $totalQuantity
                 ];
                 $response = [
@@ -134,166 +137,249 @@ class PosTeller extends BaseController
         exit(); // Add this line to stop the execution after sending the response
     }
 
-    // public function createTheOrder()
-    // {
-    //     $transactionHolder = new TransactionHolderModel();
-    //     $rowDataArray = $this->request->getPost('rowDataArray');
-    //     $transactionHolder->transStart();
-
-    //     try {
-    //         // Get the last ID number from the table
-    //         $lastId = $transactionHolder->getLastId();
-
-    //         // Add 1 to the last ID to get the new ID
-    //         $newId = $lastId + 1;
-
-    //         foreach ($rowDataArray as $rowData) {
-    //             // Extract the data from the rowData array
-    //             $productId = $rowData['productId'];
-    //             $productName = $rowData['productName'];
-    //             $price = $rowData['price'];
-    //             $quantity = $rowData['quantity'];
-    //             $total = $rowData['total'];
-    //             $results = $transactionHolder->getLastStockInDate($productId);
-
-    //             if ($results) {
-    //                 $data = [
-    //                     'transactionHolderId' => $newId,
-    //                     'productID' => $productId,
-    //                     'price' => $price,
-    //                     'quantity' => $quantity,
-    //                     'total' => $total,
-    //                     'productName' => $productName,
-    //                     'dateOfTransaction' => date('Y-m-d') // Set the current date as the date of transaction
-    //                 ];
-    //                 // ...
-
-    //                 $transactionHolder->insert($data);
-    //                 $transactionId = $transactionHolder->insertID();
-    //                 $resultStockIn = $transactionHolder->getLastStockInDate($productId);
-    //                 $stockInModel = new StockInModel();
-
-    //                 $stockId = $resultStockIn['stockId']; // Retrieve the stockId from the current stockIn record
-    //                 $stockQuantity = $resultStockIn['numberOfStockIn'];
-
-    //                 echo $stockId;
-    //                 echo $stockQuantity;
-    //                 echo $quantity;
-    //                 for ($i = 0; $i < $quantity; $i++) {
-    //                     // Fetch all the stock records with non-zero stock quantity
-    //                     $existingStocks = $stockInModel->where('stockId', $stockId)
-    //                         ->where('numberOfStockIn !=', 0)
-    //                         ->orderBy('stockInExpirationDate', 'DESC')
-    //                         ->orderBy('stockInDate', 'DESC')
-    //                         ->findAll();
-
-    //                     // Check if there are enough stock records to fulfill the quantity
-    //                     if (count($existingStocks) >= $quantity) {
-    //                         foreach ($existingStocks as $existingStock) {
-    //                             // Calculate the updated stock quantity
-    //                             $stockQuantity--;
-
-    //                             // Update the stock quantity using the StockInModel
-    //                             $stockInModel->update($existingStock['stockId'], ['numberOfStockIn' => $stockQuantity]);
-    //                         }
-    //                     } else {
-    //                         // Handle the case where the stock quantity is insufficient
-    //                         // You can throw an error or handle it according to your requirements
-    //                     }
-    //                 }
-
-    //                 $transactionHolder->transCommit();
-
-    //                 echo "Order created successfully";
-
-    //                 // ...
-
-
-    //                 // $resultFoundStockIn = $stockInModel->where('productId', $productId)->first();
-    //                 // $totalStockInStockIn = $resultFoundStockIn['numberOfStockIn'];
-    //                 // $inventoryId = $resultFoundStockIn['inventoryId'];
-
-
-
-    //                 // $inventoryModel = new InventoryModel();
-    //                 // $resultFound = $inventoryModel->where('productID', $productId)->first();
-    //                 // $resultTotal = $resultFound['sold'];
-    //                 // $inventoryId = $resultFound['inventoryId'];
-    //                 // $quantityFinal = $quantity + $resultTotal;
-    //                 // $dataUpdate = [
-    //                 //     'sold' => $quantityFinal
-    //                 // ];
-    //                 // print_r($resultFound);
-    //                 // $updated = $inventoryModel->update($inventoryId, $dataUpdate);
-
-    //                 // $stockInModel = new StockInModel();
-
-
-    //             } else {
-
-    //             }
-
-    //         }
-
-
-    //     } catch (\Exception $e) {
-    //         // Roll back the transaction if an error occurs
-    //         $transactionHolder->transRollback();
-
-    //         echo "Error: " . $e->getMessage();
-    //     }
-    // }
-
-
     public function createTheOrder()
     {
-        $rowDataArray = $this->request->getPost('rowDataArray');
-
         $transactionHolder = new TransactionHolderModel();
-        foreach ($rowDataArray as $rowData) {
-            // Extract the data from the rowData array
-            $productId = $rowData['productId'];
-            $productName = $rowData['productName'];
-            $price = $rowData['price'];
-            $quantity = $rowData['quantity'];
-            $total = $rowData['total'];
-            $results = $transactionHolder->getLastStockInDate($productId);
-        }
+        $rowDataArray = $this->request->getPost('rowDataArray');
+        $transactionHolder->transStart();
+        $payment = $this->request->getPost('payment');
+        $change = $this->request->getPost('change');
+        $discount = $this->request->getPost('txtDiscount');
+        $totalPrice = $this->request->getPost('totalPrice');
 
-        $resultStockIn = $transactionHolder->getLastStockInDate($productId);
-        $stockInModel = new StockInModel();
+        try {
+            // Get the last ID number from the table
+            $lastId = $transactionHolder->getLastId();
 
-        $stockId = $resultStockIn['stockId']; // Retrieve the stockId from the current stockIn record
-        $stockQuantity = $resultStockIn['numberOfStockIn'];
+            $transactionError = false;
+            $transactionHolder->transBegin();
+            // Add 1 to the last ID to get the new ID
+            $newId = $lastId + 1;
 
-        echo $stockId;
-        echo $stockQuantity;
-        echo $quantity;
-        for ($i = 0; $i < $quantity; $i++) {
-            // Fetch all the stock records with non-zero stock quantity
-            $existingStocks = $stockInModel->where('stockId', $stockId)
-                ->where('numberOfStockIn !=', 0)
-                ->orderBy('stockInExpirationDate', 'DESC')
-                ->orderBy('stockInDate', 'DESC')
-                ->findAll();
+            $receiptModel = new ReceiptModel();
+            
+            $data2 = [
+                'transactionId' => $newId,
+                'payment' => $payment,
+                'totalPrice' => $totalPrice,
+                'discount' => $discount,
+                'paymentChange'=> $change,
+                'dateOfTransaction' => date('Y-m-d H:i:s')
+            ];
+            $receiptModel->insert($data2);
 
-            // Check if there are enough stock records to fulfill the quantity
-            if (count($existingStocks) >= $quantity) {
-                foreach ($existingStocks as $existingStock) {
-                    // Calculate the updated stock quantity
-                    $stockQuantity--;
 
-                    // Update the stock quantity using the StockInModel
-                    $stockInModel->update($existingStock['stockId'], ['numberOfStockIn' => $stockQuantity]);
+            foreach ($rowDataArray as $rowData) {
+                // Extract the data from the rowData array
+                $productId = $rowData['productId'];
+                $productName = $rowData['productName'];
+                $price = $rowData['price'];
+                $quantity = $rowData['quantity'];
+                $total = $rowData['total'];
+                $totalStocks = $rowData['totalStock'];
+                $results = $transactionHolder->getLastStockInDate($productId);
+
+                if ($quantity > $totalStocks) {
+                    $transactionError = true;
+                    break; // Exit the loop if any quantity exceeds total stock
                 }
-            } else {
-                // Handle the case where the stock quantity is insufficient
-                // You can throw an error or handle it according to your requirements
-            }
-        }
 
+
+                if ($results) {
+                    $data = [
+                        'transactionHolderId' => $newId,
+                        'productID' => $productId,
+                        'price' => $price,
+                        'quantity' => $quantity,
+                        'total' => $total,
+                        'productName' => $productName,
+                        'dateOfTransaction' => date('Y-m-d') // Set the current date as the date of transaction
+                    ];
+                    // ...
+
+
+
+                    $transactionHolder->insert($data);
+                    $transactionId = $transactionHolder->insertID();
+                    $resultStockIn = $transactionHolder->getLastStockInDate($productId);
+                    $stockInModel = new StockInModel();
+
+                    $stockId = $resultStockIn['stockId']; // Retrieve the stockId from the current stockIn record
+                    $stockQuantity = $resultStockIn['numberOfStockIn'];
+
+                    $stockInModel = new StockInModel();
+
+                    $stockItems = $stockInModel->where('productId', $productId)
+                        ->orderBy('stockInExpirationDate IS NULL OR stockInExpirationDate	 = 0', '', false)
+                        ->orderBy('stockInExpirationDate', 'ASC')
+                        ->orderBy('stockInDate', 'ASC')
+                        ->findAll();
+
+                    foreach ($stockItems as $stockItem) {
+                        if ($quantity > 0) {
+                            $availableQuantity = $stockItem['stockToBeMinus'];
+
+                            if ($availableQuantity >= $quantity) {
+                                // Stock out the full quantity
+                                $stockItem['stockToBeMinus'] -= $quantity;
+                                $quantity = 0;
+                            } else {
+                                // Stock out the available quantity and continue
+                                $quantity -= $availableQuantity;
+                                $stockItem['stockToBeMinus'] = 0;
+                            }
+
+                            // Mark the item as stock-out if the quantity is zero
+                            if ($stockItem['stockToBeMinus'] == 0) {
+                                $stockItem['status'] = 'stock-out';
+                            }
+
+                            // Save the updated stock item
+                            $stockInModel->save($stockItem);
+                        } else {
+                            break; // Exit the loop if the required quantity is stocked out
+                        }
+
+                        if ($quantity > 0 && $stockItem['stockToBeMinus'] == 0) {
+                            // Deduct remaining quantity from the next stock-in row
+                            continue;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    $newQuantity = $rowData['quantity'];
+                    $inventoryModel = new InventoryModel();
+                    $resultFound = $inventoryModel->where('productID', $productId)->first();
+                    $resultTotal = $resultFound['sold'];
+                    $inventoryId = $resultFound['inventoryId'];
+                    $quantityFinal = $newQuantity + $resultTotal;
+                    $dataUpdate = [
+                        'sold' => $quantityFinal
+                    ];
+                    $inventoryModel->update($inventoryId, $dataUpdate);
+
+                    $stockOutModel = new StockOutModel();
+
+                    $data = [
+                        'productIdentification' => $productId,
+                        'stockOutQuantity' => $newQuantity,
+                        'stockOutDate' => date('Y-m-d H:i:s'),
+                        'reason' => 'Sold'
+                    ];
+                    $inserted = $stockOutModel->insert($data);
+
+
+
+                    // $receiptModel = new ReceiptModel();
+
+                    // $data2 = [
+                    //     'transactionId' => $transactionId,
+                    //     'payment' => $newQuantity,
+                    //     'totalPrice' => $totalPrice,
+                    //     'discount' => $discount,
+                    //     'dateOfTransaction' => date('Y-m-d H:i:s')
+                    // ];
+                    // $receiptModel->insert($data2);
+
+                    if ($inserted) {
+                        $transactionHolder->transCommit();
+                    } else {
+                        $transactionHolder->transRollback();
+                        return 'Transaction Error';
+                    }
+                } else {
+                    $transactionError = true;
+                    break; // Exit the loop if stock not found
+                }
+
+
+            }
+
+ 
+            if ($transactionError) {
+                $transactionHolder->transRollback();
+                return 'Transaction Error: Quantity exceeds total stock';
+            } else {
+                $transactionHolder->transCommit();
+            }
+
+
+        } catch (\Exception $e) {
+            // Roll back the transaction if an error occurs
+            $transactionHolder->transRollback();
+
+            echo "Error: " . $e->getMessage();
+        }
     }
 
 
+    //     public function createTheOrder()
+//     {
+//         $rowDataArray = $this->request->getPost('rowDataArray');
 
+    //         $transactionHolder = new TransactionHolderModel();
+//         foreach ($rowDataArray as $rowData) {
+//             // Extract the data from the rowData array
+//             $productId = $rowData['productId'];
+//             $productName = $rowData['productName'];
+//             $price = $rowData['price'];
+//             $quantity = $rowData['quantity'];
+//             $total = $rowData['total'];
+//             $results = $transactionHolder->getLastStockInDate($productId);
+
+
+
+
+    //             // $resultStockIn = $transactionHolder->getLastStockInDate($productId);
+//             $stockInModel = new StockInModel();
+
+    //             $stockItems = $stockInModel->where('productId', $productId)
+//             ->orderBy('stockInExpirationDate IS NULL OR stockInExpirationDate	 = 0', '', false)
+//             ->orderBy('stockInExpirationDate', 'ASC')
+//             ->orderBy('stockInDate', 'ASC')
+//             ->findAll();
+
+
+
+    //             // $stockId = $resultStockIn['stockId']; // Retrieve the stockId from the current stockIn record
+//             // $stockQuantity = $resultStockIn['numberOfStockIn'];
+
+
+    //             // Retrieve stock items for the specific item in FIFO order
+
+    //             foreach ($stockItems as $stockItem) {
+//                 if ($quantity > 0) {
+//                     $availableQuantity = $stockItem['numberOfStockIn'];
+
+    //                     if ($availableQuantity >= $quantity) {
+//                         // Stock out the full quantity
+//                         $stockItem['numberOfStockIn'] -= $quantity;
+//                         $quantity = 0;
+//                     } else {
+//                         // Stock out the available quantity and continue
+//                         $quantity -= $availableQuantity;
+//                         $stockItem['numberOfStockIn'] = 0;
+//                     }
+
+    //                     // Mark the item as stock-out if the quantity is zero
+//                     if ($stockItem['numberOfStockIn'] == 0) {
+//                         $stockItem['status'] = 'stock-out';
+//                     }
+
+    //                     // Save the updated stock item
+//                     $stockInModel->save($stockItem);
+//                 } else {
+//                     break; // Exit the loop if the required quantity is stocked out
+//                 }
+
+    //                 if ($quantity > 0 && $stockItem['numberOfStockIn'] == 0) {
+//                     // Deduct remaining quantity from the next stock-in row
+//                     continue;
+//                 } else {
+//                     break;
+//                 }
+//             }
+//         }
+//     }
 }
