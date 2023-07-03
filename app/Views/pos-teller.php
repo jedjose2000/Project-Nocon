@@ -91,7 +91,7 @@
                                                 class="fa-solid fa-person-circle-minus me-2"></i>Cancel</button>
                                     </div>
                                 <?php endif; ?>
-                                <hr> <!-- Horizontal line -->
+                                <hr class="mt-4"> <!-- Horizontal line -->
                                 <form id="makePayment">
                                     <div class="mb-3">
                                         <label for="txtPayment" class="form-label">Payment<span class="required"

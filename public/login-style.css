@@ -26,7 +26,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg,#ffbc6f, rgb(255, 102, 0));
+  background: linear-gradient(90deg,#a4ff92, rgb(248, 230, 218));
 }
 
 .main-container {
@@ -45,4 +45,173 @@ body {
 
 .forgot-password:hover{
   color:rgb(255, 102, 0) !important;
+}
+
+
+
+
+.alert-danger {
+  position: relative;
+  animation: faded 7s forwards;
+}
+
+.login-error {
+  position: absolute;
+  top: 115px;
+  left: 0;
+}
+@keyframes faded {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.forgot-pass {
+  font-family: var(--main-font);
+  font-weight: 500;
+  /* color: #1f1f1f; */
+}
+
+/* .forgot-pass:hover {
+  color: #1f1f1f;
+} */
+
+
+
+
+/* forgot password style */
+
+
+
+div.forgot {
+  position: relative;
+}
+
+
+.forgot-pass:hover::after {
+  position: absolute;
+  content:'';
+  top: 26px;
+  right: 0;
+  height: 5px;
+  width: 120px;
+  background: var(--darker-main);
+  animation: forgot 0.5s ease;
+}
+
+
+
+@keyframes forgot{
+  from {width: 0px;}
+  to {width: 120px;}
+}
+
+
+
+
+
+
+.wrapper {
+  background: #fff;
+  max-width: 500px;
+  position: relative;
+  background: rgba(255, 255, 255, .90);
+  border-radius: 7px;
+  box-shadow: 1px 1px 18px rgba(0, 0, 0, 0.25);
+}
+
+
+.error {
+  color: red;
+}
+
+.manual-error {
+  display: none;
+}
+
+.get-code {
+  position: relative;
+}
+
+.getcode-wrapper:hover::after {
+  position: absolute;
+  content:'';
+  height: 5px;
+  width: 65px;
+  top: 23px;
+  right: 0;
+  background: var(--darker-main);
+  animation: get 0.5s ease;
+
+}
+
+
+#btnGetCode {
+  font-family: var(--main-font);
+  background: none;
+  color: #4576FD;
+  font-weight: 500;
+}
+
+#btnGetCode:hover {
+  color: #1D5BCA;
+}
+
+@keyframes get{
+  from {width: 0px;}
+  to {width: 65px;}
+}
+
+.return {
+  position: absolute;
+
+}
+
+.a-return {
+  font-size: 24px;
+  color: var(--darker-main);
+}
+
+.a-return:hover {
+  color: var(--darker-main);
+  opacity: 0.8;
+}
+
+.btn-send {
+  font-size: 14px;
+}
+
+
+.condition-icon::before {
+  color: red;
+}
+
+.condition.checked .condition-icon::before {
+  content: "\2713";
+  color: green;
+}
+
+.condition-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: red;
+}
+
+.condition.checked .condition-icon {
+  display: inline-block;
+  color: green;
+}
+
+.condition-label {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: red;
 }
