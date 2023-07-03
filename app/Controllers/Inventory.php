@@ -111,6 +111,7 @@ class Inventory extends BaseController
                 'stockInExpirationDate' => $expirationDate ?? '',
                 'stockInDate' => date('Y-m-d H:i:s'),
                 'supplierID' => $supplierId,
+                'stockToBeMinus' => $quantity
             ];
             $inserted2 = $stockInModel->insert($data2);
 
@@ -154,6 +155,7 @@ class Inventory extends BaseController
             'stockInExpirationDate' => $expirationDate ?? '',
             'stockInDate' => date('Y-m-d H:i:s'),
             'supplierID' => $supplierId,
+            'stockToBeMinus' => $quantity
         ];
         $inserted = $stockInModel->insert($data);
         $stockInModel->transCommit();

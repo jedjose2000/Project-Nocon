@@ -296,8 +296,6 @@ $(document).on('click', '.archiveAllData', function () {
 
 $(document).on('click', '.btnArchiveAll', function () {
     var categoryIdString = $('#hdnAllCategoryId').val();
-
-
     if (categoryIdString === "") {
         alertify.error('Please select rows to archive!');
         return;
