@@ -8,8 +8,7 @@ class TransactionHolderModel extends Model
 {
     protected $table = 'tbltransactionholder';
     protected $primaryKey = 'orderId';
-    protected $allowedFields = ['orderId', 'productID', 'price', 'quantity', 'total', 'productName', 'dateOfTransaction', 'transactionHolderId'];
-
+    protected $allowedFields = ['orderId', 'productID', 'price', 'quantity', 'total', 'productName', 'dateOfTransaction', 'transactionHolderId', 'stockOutIdHolder'];
 
     public function getLastId()
     {
@@ -20,7 +19,7 @@ class TransactionHolderModel extends Model
         }
         return 0; // Return 0 if no records exist
     }
-    
+
     public function getLastStockInDate($productId)
     {
         $db = \Config\Database::connect();
@@ -133,27 +132,6 @@ class TransactionHolderModel extends Model
     }
 
 
-
-
-
-
-
-    // public function getInventory($productId)
-    // {
-    //     $db = \Config\Database::connect();
-    //     $builder = $db->table('tblinventory');
-    //     $builder->select('*');
-    //     $builder->where('productID', $productId);
-    //     $query = $builder->get();
-    //     $result = $query->getRow();
-
-    //     if ($result) {
-    //         return $result->sold;
-    //     } else {
-    //         return 0;
-    //     }
-    // }
-
     public function updateInventory($productId, $newResult)
     {
         $db = \Config\Database::connect();
@@ -162,6 +140,90 @@ class TransactionHolderModel extends Model
         $builder->where('productID', $productId);
         $builder->update();
     }
+
+
+
+    public function getProductReports()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblproducts');
+        $builder->select('*, tblproducts.productName, SUM(tbltransactionholder.total) AS totalPrice, SUM(tbltransactionholder.quantity) AS totalQuantity, MAX(tbltransactionholder.dateOfTransaction) AS highestSalesDate');
+        $builder->join('tbltransactionholder', 'tbltransactionholder.productID = tblproducts.productId');
+        $builder->groupBy('tblproducts.productId, tblproducts.productName');
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getProductReportHistory($productId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tbltransactionholder');
+        $builder->select('*');
+        $builder->where('productId', $productId);
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function getReceipts()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblreceipt');
+        $builder->select('*');
+        $builder->join('tbltransactionholder', 'tbltransactionholder.transactionHolderId = tblreceipt.transactionId ');
+        $builder->groupBy('tbltransactionholder.transactionHolderId, tblreceipt.transactionId');
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+
+    public function getProductReceipts($receiptId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblreceipt');
+        $builder->select('*');
+        $builder->join('tbltransactionholder', 'tbltransactionholder.transactionHolderId = tblreceipt.transactionId ');
+        $builder->join('tblproducts', 'tblproducts.productId = tbltransactionholder.productID ');
+        $builder->where('tbltransactionholder.transactionHolderId', $receiptId);
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+    public function outputReceipt()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblreceipt');
+        $builder->select('*');
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+
+    public function getAllTransactioIdHolder($transactionId)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tbltransactionholder');
+        $builder->select('*');
+        $builder->where('transactionHolderId', $transactionId);
+        $query = $builder->get();
+        $result = $query->getResult();
+    
+        $stockOutIdHolders = []; // Create an empty array to store the stockOutIdHolders
+        $stockOutQuantity = [];
+        foreach ($result as $row) {
+            $stockOutIdHolders[] = $row->stockOutIdHolder; // Add stockOutIdHolder value to the array
+            $stockOutQuantity[] = $row->quantity; // Add stockOutIdHolder value to the array
+        }
+
+
+        return $stockOutIdHolders;
+    }
+    
+
 
 
 

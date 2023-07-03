@@ -155,7 +155,8 @@ class Inventory extends BaseController
             'stockInExpirationDate' => $expirationDate ?? '',
             'stockInDate' => date('Y-m-d H:i:s'),
             'supplierID' => $supplierId,
-            'stockToBeMinus' => $quantity
+            'stockToBeMinus' => $quantity,
+            'status' => 'In Stock',
         ];
         $inserted = $stockInModel->insert($data);
         $stockInModel->transCommit();
@@ -236,6 +237,7 @@ class Inventory extends BaseController
                 } elseif ($remainingQuantity > 0) {
                     // Stock out the available quantity
                     $stockItems[$index]['stockToBeMinus'] = 0;
+                    $stockItems[$index]['status'] = 'Out of Stock';
                     $remainingQuantity -= $availableQuantity;
                 }
 

@@ -35,51 +35,6 @@ class PosTeller extends BaseController
         return view('pos-teller', $data);
     }
 
-    // public function checkIfStockIsSufficientTeller()
-    // {
-
-    //     $inventoryModel = new InventoryModel();
-    //     $txtQuantity = $this->request->getVar('quantity');
-    //     $txtProductId = $this->request->getVar('productId');
-    //     $result = $inventoryModel->checkStockSufficiency($txtProductId, $txtQuantity);
-
-    //     if ($result) {
-    //         $transactionHolder = new TransactionHolderModel();
-
-    //         $productsModel = new ProductModel();
-    //         $productsModel->select('*');
-    //         $result = $productsModel->where('productId', $txtProductId)->first();
-
-    //         if ($result) {
-    //             $price = $result['sellPrice'];
-    //             $productName = $result['productName'];
-    //             $totalPrice = $price * $txtQuantity;
-    //             $transactionHolder = new TransactionHolderModel();
-    //             $transactionHolder->transStart();
-
-    //             $data = [
-    //                 'productID' => $txtProductId,
-    //                 'price' => $price,
-    //                 'quantity' => $txtQuantity,
-    //                 'total' => $totalPrice,
-    //                 'productName' => $productName
-    //             ];
-    //             $inserted = $transactionHolder->insert($data);
-    //             if ($inserted === false) {
-    //                 echo 'Transaction failed.';
-    //                 $transactionHolder->transRollback();
-    //             } else {
-    //                 echo 'Transaction success.';
-    //                 $transactionHolder->transCommit();
-    //             }
-    //         } else {
-    //             echo 'Transaction failed.';
-    //         }
-    //     } else {
-    //         echo 'Transaction failed.';
-    //     }
-    // }
-
     public function checkIfStockIsSufficientTeller()
     {
         $inventoryModel = new InventoryModel();
@@ -164,9 +119,16 @@ class PosTeller extends BaseController
                 'totalPrice' => $totalPrice,
                 'discount' => $discount,
                 'paymentChange' => $change,
-                'dateOfTransaction' => date('Y-m-d H:i:s')
+                'dateOfTransaction' => date('Y-m-d H:i:s'),
+                'paymentType' => 'Cash',
+                'receiptCode' => ''
             ];
             $receiptModel->insert($data2);
+            $receiptId = $receiptModel->insertID();
+    
+            // Update the productCode field
+            $productCode = 'RCT-' . str_pad($receiptId, 5, '0', STR_PAD_LEFT);
+            $receiptModel->update($receiptId, ['receiptCode' => $productCode]);
 
 
             foreach ($rowDataArray as $rowData) {
@@ -186,21 +148,7 @@ class PosTeller extends BaseController
 
 
                 if ($results) {
-                    $data = [
-                        'transactionHolderId' => $newId,
-                        'productID' => $productId,
-                        'price' => $price,
-                        'quantity' => $quantity,
-                        'total' => $total,
-                        'productName' => $productName,
-                        'dateOfTransaction' => date('Y-m-d') // Set the current date as the date of transaction
-                    ];
-                    // ...
-
-
-
-                    $transactionHolder->insert($data);
-                    $transactionId = $transactionHolder->insertID();
+                   
                     $resultStockIn = $transactionHolder->getLastStockInDate($productId);
                     $stockInModel = new StockInModel();
 
@@ -232,6 +180,7 @@ class PosTeller extends BaseController
                         } elseif ($remainingQuantity > 0) {
                             // Stock out the available quantity
                             $stockItems[$index]['stockToBeMinus'] = 0;
+                            $stockItems[$index]['status'] = 'Out of Stock';
                             $remainingQuantity -= $availableQuantity;
                         }
 
@@ -245,8 +194,24 @@ class PosTeller extends BaseController
                                 'stockOutQuantity' => $availableQuantity,
                                 'stockOutDate' => date('Y-m-d H:i:s'),
                                 'reason' => 'Sold',
-                                'deductedStockInId' => $stockItem['stockId']
+                                'deductedStockInId' => $stockItem['stockId'],
                             ]);
+                            
+                            $stockIdHolder = $stockOutModel->insertID();
+
+
+                            $data = [
+                                'transactionHolderId' => $newId,
+                                'productID' => $productId,
+                                'price' => $price,
+                                'quantity' => $quantity,
+                                'total' => $total,
+                                'productName' => $productName,
+                                'dateOfTransaction' => date('Y-m-d H:i:s'),
+                                'stockOutIdHolder'=> $stockIdHolder
+                            ];
+        
+                            $transactionHolder->insert($data);
                         }
 
                         if ($remainingQuantity == 0) {

@@ -8,6 +8,6 @@ class StockOutModel extends Model
 {
     protected $table = 'tblstockout';
     protected $primaryKey = 'stockOutId ';
-    protected $allowedFields = ['stockOutId ', 'stockOutQuantity', 'reason', 'stockOutDate','productIdentification','deductedStockInId'];
+    protected $allowedFields = ['stockOutId ', 'stockOutQuantity', 'reason', 'stockOutDate','productIdentification','deductedStockInId','stockOutIdHolder'];
 
 }
