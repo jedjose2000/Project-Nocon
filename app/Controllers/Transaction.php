@@ -6,6 +6,9 @@ class Transaction extends BaseController
 {
     public function index()
     {
-        return view('transaction');
+        $permissionChecker = new \App\Libraries\PermissionChecker();
+        $data['permissionChecker'] = $permissionChecker;
+        $data['pageTitle'] = 'Reports';
+        return view('transaction',$data);
     }
 }

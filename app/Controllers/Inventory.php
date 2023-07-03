@@ -203,28 +203,64 @@ class Inventory extends BaseController
     {
         $productId = $this->request->getPost('productId');
         $quantity = $this->request->getPost('quantity');
-        $expirationDate = $this->request->getPost('expirationDate');
-        $supplierId = $this->request->getPost('supplierId');
         $inventoryId = $this->request->getPost('inventoryId');
         $reason = $this->request->getPost('reason');
         $stockOutModel = new StockOutModel();
         $inventoryModel = new InventoryModel();
+        $stockInModel = new StockInModel();
 
         try {
             $stockOutModel->transStart();
 
-            $data = [
-                'productIdentification' => $productId,
-                'stockOutQuantity' => $quantity,
-                'stockOutDate' => date('Y-m-d H:i:s'),
-                'reason' => $reason
-            ];
+            // Retrieve stock items based on FIFO order
+            $stockItems = $stockInModel
+                ->where('productId', $productId)
+                ->orderBy('stockInExpirationDate IS NULL OR stockInExpirationDate = 0', '', false)
+                ->orderBy('stockInExpirationDate', 'ASC')
+                ->orderBy('stockInDate', 'ASC')
+                ->findAll();
 
-            $inserted = $stockOutModel->insert($data);
+            $remainingQuantity = $quantity;
+            $stockId = null;
 
-            if ($inserted) {
+            foreach ($stockItems as $index => $stockItem) {
+                $availableQuantity = $stockItem['stockToBeMinus'];
+
+
+                if ($remainingQuantity > 0 && $availableQuantity >= $remainingQuantity) {
+                    // Stock out the remaining quantity
+                    $stockItems[$index]['stockToBeMinus'] -= $remainingQuantity;
+                    $stockId = $stockItems[$index]['stockId'];
+                    $availableQuantity = $remainingQuantity;
+                    $remainingQuantity = 0;
+                } elseif ($remainingQuantity > 0) {
+                    // Stock out the available quantity
+                    $stockItems[$index]['stockToBeMinus'] = 0;
+                    $remainingQuantity -= $availableQuantity;
+                }
+
+                // Save the updated stock item
+                $stockInModel->save($stockItems[$index]);
+
+                if ($availableQuantity > 0) {
+                    // Mark the item as stock-out and insert a stock-out record
+                    $stockOutModel->insert([
+                        'productIdentification' => $productId,
+                        'stockOutQuantity' => $availableQuantity,
+                        'stockOutDate' => date('Y-m-d H:i:s'),
+                        'reason' => $reason,
+                        'deductedStockInId' => $stockItem['stockId']
+                    ]);
+                }
+
+                if ($remainingQuantity == 0) {
+                    break;
+                }
+            }
+
+            // Perform stock-out operation if the required quantity is completely stocked out
+            if ($remainingQuantity == 0) {
                 $inventory = $inventoryModel->find($inventoryId);
-
                 if ($reason === 'Damaged') {
                     $damaged = $inventory['damaged'] + $quantity;
                     $inventoryModel->update($inventoryId, ['damaged' => $damaged]);
@@ -240,15 +276,19 @@ class Inventory extends BaseController
                 }
                 $stockOutModel->transCommit();
                 echo 'Transaction success.';
+
             } else {
-                echo 'Transaction failed.';
-                $stockOutModel->transRollback();
+                throw new \Exception('Insufficient stock quantity.'); // Throw an exception
             }
+
         } catch (\Exception $e) {
             echo 'Transaction failed. Error: ' . $e->getMessage();
             $stockOutModel->transRollback();
         }
     }
+
+
+
 
     public function viewHistoryStockIn()
     {
@@ -256,14 +296,15 @@ class Inventory extends BaseController
         $inventoryModel = new InventoryModel();
         $resultStockIn = $inventoryModel->getProductsWithStockIn($productId);
         $resultStockOut = $inventoryModel->getProductsWithStockOut($productId);
-    
+
         $data["resultStockIn"] = $resultStockIn;
         $data["resultStockOut"] = $resultStockOut;
-    
+
         return $this->response->setJSON($data);
     }
 
-    public function archiveAllInventory(){
+    public function archiveAllInventory()
+    {
         $model = new InventoryModel();
         $inventoryIds = $this->request->getPost('inventoryId');
 
@@ -289,7 +330,7 @@ class Inventory extends BaseController
             echo "Error: " . $e->getMessage();
         }
     }
-    
+
 
 
 }
