@@ -8,5 +8,6 @@ class ReceiptModel extends Model
 {
     protected $table = 'tblreceipt';
     protected $primaryKey = 'receiptId';
-    protected $allowedFields = ['receiptId', 'transactionId', 'payment','totalPrice','discount','dateOfTransaction','paymentChange'];
+    protected $allowedFields = ['receiptId', 'transactionId', 'payment','totalPrice','discount','dateOfTransaction','paymentChange','receiptCode','paymentType'];
+
 }

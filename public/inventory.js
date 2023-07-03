@@ -509,6 +509,7 @@ $('body').on('click', '.btnViewHistory', function () {
                     element.supplierName,
                     stockInDate,
                     expirationDate,
+                    element.status,
                 ]);
             });
 
@@ -519,6 +520,7 @@ $('body').on('click', '.btnViewHistory', function () {
                     { title: 'Supplier' },
                     { title: 'Stock In Date' },
                     { title: 'Stock In Expiration Date' },
+                    { title: 'Status' },
                 ],
                 columnDefs: [
                     {

@@ -8,7 +8,7 @@ class StockInModel extends Model
 {
     protected $table = 'tblstockIn';
     protected $primaryKey = 'stockId';
-    protected $allowedFields = ['stockId', 'productId', 'numberOfStockIn', 'stockInDate', 'stockInExpirationDate','supplierID','stockToBeMinus'];
+    protected $allowedFields = ['stockId', 'productId', 'numberOfStockIn', 'stockInDate', 'stockInExpirationDate','supplierID','stockToBeMinus','status'];
 
     
 }

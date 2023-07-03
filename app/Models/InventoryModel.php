@@ -8,7 +8,7 @@ class InventoryModel extends Model
 {
     protected $table = 'tblinventory';
     protected $primaryKey = 'inventoryId';
-    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate', 'isInventoryArchived'];
+    protected $allowedFields = ['inventoryId', 'productID', 'supplierID', 'totalQuantity', 'damaged', 'lost', 'expired', 'sold', 'available', 'expirationDate', 'isInventoryArchived','returned'];
 
     public function getProductsWithInventoryAndProducts()
     {

@@ -77,6 +77,12 @@ $routes->post('/checkIfStockIsSufficientTeller', 'PosTeller::checkIfStockIsSuffi
 $routes->post('/createTheOrder', 'PosTeller::createTheOrder');
 
 
+$routes->get('/view-productHistory', 'Transaction::viewHistoryProduct');
+$routes->get('/view-productReceipt', 'Transaction::viewProductReceipt');
+$routes->post('/voidProduct', 'Transaction::voidProduct');
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
