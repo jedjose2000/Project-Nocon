@@ -459,7 +459,7 @@ $("#formInventoryStockOut").validate({
             success: function (data) {
                 console.log(data);
                 if (data === 'Transaction success.') {
-                    window.localStorage.setItem('show_popup_add', 'true');
+                    window.localStorage.setItem('show_popup_update', 'true');
                     window.location.reload();
                 } else {
                     window.localStorage.setItem('show_popup_failed', 'true');
