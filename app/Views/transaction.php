@@ -256,7 +256,7 @@
                         <div class="col">
                             <div class="container border p-3">
                                 <input type="hidden" class="form-control" id="txtReceiptId" name="txtReceiptId">
-                                <h4 class=" mt-3">Products</h4> <!-- Add the title here -->
+                                <h4 class=" mt-3">Products Ordered</h4> <!-- Add the title here -->
                                 <div id="productReceiptContainer" class="border p-2 rounded">
                                     <table id="productReceiptTable" class="display" style="width:100%"></table>
                                 </div>
@@ -483,9 +483,17 @@
                     document.getElementById('productReceiptContainer').innerHTML = "";
                     document.getElementById('productReceiptContainer').innerHTML = `<table id="productReceiptTable" class="display" style="width:100%"></table>`;
 
-                    $('#viewReceipt #txtTotalAmount').val(result.payment);
-                    $('#viewReceipt #txtTotalPrice').val(result.totalPrice);
-                    $('#viewReceipt #txtChange').val(result.paymentChange);
+                    var formattedPayment = result.payment.toLocaleString();
+                    formattedPayment = formattedPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $('#viewReceipt #txtTotalAmount').val(formattedPayment);
+
+                    var formattedTotalPrice = result.totalPrice.toLocaleString();
+                    formattedTotalPrice = formattedTotalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $('#viewReceipt #txtTotalPrice').val(formattedTotalPrice);
+
+                    var formattedChange = result.paymentChange.toLocaleString();
+                    formattedChange = formattedChange.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $('#viewReceipt #txtChange').val(formattedChange);
                     $('#viewReceipt #txtDiscount').val(result.discount);
                     $('#viewReceipt #txtReceiptCode').val(result.receiptCode);
 
@@ -496,16 +504,21 @@
                         let formattedTotal = new Intl.NumberFormat('en-PH', {
                             style: 'currency',
                             currency: 'PHP',
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
                         }).format(element.total);
+
+                        formattedTotal = formattedTotal.replace(/PHP/, '').trim();
 
                         let formattedPrice = new Intl.NumberFormat('en-PH', {
                             style: 'currency',
                             currency: 'PHP',
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
                         }).format(element.price);
+
+                        formattedPrice = formattedPrice.replace(/PHP/, '').trim();
+
 
                         productHistoryDataSet.push([
                             element.productName,
