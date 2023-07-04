@@ -58,11 +58,11 @@ class ForgotPassword extends BaseController
 
       $client = \Config\Services::curlrequest();
       $payload = array(
-        'from' => 'jedlester42@gmail.com',
+        'from' => 'rajpetshop25@gmail.com',
         'to' => '["' . $fetchEmail . '"]',
-        'subject' => 'Reset Password',
-        'text' => 'Your OTP number is ' . $otp,
-        'html' => '<h1>Your OTP number is ' . $otp . '</h1>'
+        'subject' => 'Reset Your Password',
+        'text' => 'Hi '.$checkUser. '<br><br>If you did not request this change, you can safely ignore this email.<br><br> You\'re receiving this email because you requested a password reset for your RAJ Petshop Account. To choose a new password and complete your request, please kindly input this OTP code:' . $otp,
+        'html' => 'Hi '.$checkUser. '<br><br>If you did not request this change, you can safely ignore this email.<br><br>You\'re receiving this email because you requested a password reset for your RAJ Petshop Account. To choose a new password and complete your request, please input the OTP code provided below:<br><br><h1>' . $otp . '</h1>', 
       );
       $jsonData = json_encode($payload);
 
@@ -71,7 +71,7 @@ class ForgotPassword extends BaseController
         'Content-Length' => strlen($jsonData)
       ];
 
-      $response = $client->request('POST', 'https://bautista-email-server.onrender.com/email', [
+      $response = $client->request('POST', 'https://project-nocon-api.onrender.com/email', [
         'headers' => $headers,
         'body' => $jsonData
       ]);
