@@ -168,6 +168,8 @@
     });
 
 
+  
+
 
 
 
@@ -199,7 +201,7 @@
           // $('#btnCheckUsername').prop('disabled', true);
           if (data === true) {
             $('#checkOTPError').html('');
-            alertify.success('OTP Sent to your email!');
+            alertify.success('An OTP has been sent to the email connected on this account!');
             if (current != 0)
               return;
             $('#divCounter').text(current);

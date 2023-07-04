@@ -84,7 +84,10 @@ $routes->get('/view-productHistory', 'Transaction::viewHistoryProduct');
 $routes->get('/view-productReceipt', 'Transaction::viewProductReceipt');
 $routes->post('/voidProduct', 'Transaction::voidProduct');
 
-
+$routes->post('/checkEmail', 'ForgotPassword::checkEmail');
+$routes->post('/sendOTPForgot', 'ForgotPassword::sendOTP');
+$routes->post('/checkOTP', 'ForgotPassword::checkOTP');
+$routes->post('/forChangePassword', 'ForgotPassword::changePassword');
 
 /*
  * --------------------------------------------------------------------
