@@ -58,7 +58,7 @@ class ForgotPassword extends BaseController
 
       $client = \Config\Services::curlrequest();
       $payload = array(
-        'from' => 'rajpetshop25@gmail.com',
+        'from' => 'RAJ PETSHOP <from>',
         'to' => '["' . $fetchEmail . '"]',
         'subject' => 'Reset Your Password',
         'text' => 'Hi '.$checkUser. '<br><br>If you did not request this change, you can safely ignore this email.<br><br> You\'re receiving this email because you requested a password reset for your RAJ Petshop Account. To choose a new password and complete your request, please kindly input this OTP code:' . $otp,

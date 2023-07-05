@@ -51,16 +51,19 @@
                                                 <th class="text-center">Damaged</th>
                                                 <th class="text-center">Lost</th>
                                                 <th class="text-center">Expired</th>
+                                                <th class="text-center">Returns</th>
                                                 <th class="text-center">Available</th>
                                                 <th class="text-center">Total Quantity</th>
+                                                <th class="text-center">Critical Level Quantity</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             foreach ($result as $row) {
+                                                $rowClass = ($row->totalStockIn <= $row->clq) ? 'text-danger' : '';
                                                 ?>
-                                                <tr id="<?php echo $row->inventoryId ?>">
+                                                <tr id="<?php echo $row->inventoryId ?>" class="<?php echo $rowClass ?>">
                                                     <td class="text-center">
                                                         <span class="custom-checkbox">
                                                             <input type="checkbox" id="data_checkbox" class="data_checkbox"
@@ -88,10 +91,16 @@
                                                         <?php echo $row->expired ?>
                                                     </td>
                                                     <td class="text-center">
+                                                        <?php echo $row->returned ?>
+                                                    </td>
+                                                    <td class="text-center">
                                                         <?php echo $row->totalStockIn ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <?php echo $row->totalQuantity ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <?php echo $row->clq ?>
                                                     </td>
                                                     <td class="text-center">
                                                         <button title="Stock In" class="btn btn-outline-success btnStockIn"

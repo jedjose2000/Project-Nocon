@@ -112,6 +112,21 @@
   display: none;
 }
 
+.chart-container {
+  width: 1000px; /* Set the desired width of the chart container */
+  height: 500px; /* Calculate the height based on the viewport height minus a fixed value (e.g., 100px for header) */
+  margin-right: auto; /* Push the chart container to the right */
+  margin-left: 0; /* Remove any left margin */
+}
+
+#salesChart {
+  width: 100%; /* Make the canvas fill the entire chart container */
+  height: 100%; /* Make the canvas fill the entire chart container */
+  margin: 0; /* Remove any margin */
+}
+
+
+
 
 .receipt-input input[type=text] {
   background: none;
