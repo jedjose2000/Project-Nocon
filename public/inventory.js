@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#inventoryTable').DataTable({
         "columnDefs": [
             // { "orderable": false, "targets": 0 },
-            { "orderable": false, "targets": 9 }
+            { "orderable": false, "targets": 11 }
         ],
         order: [[1, 'asc']]
     });
