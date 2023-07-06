@@ -20,6 +20,8 @@ class Dashboard extends BaseController
         $productsNearCriticalLevel = $productsModel->getProductsNearCriticalLevel(); // Invoke the function
 
         $overAllSalesGraph = $receiptModel->getOverallSalesGraph();
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         $data['totalStocksOnHand'] = $totalStocksOnHand;
         $data['productsNearCriticalLevel'] = $productsNearCriticalLevel;
         $data['salesData'] = $overAllSalesGraph;

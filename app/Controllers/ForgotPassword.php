@@ -10,6 +10,8 @@ class ForgotPassword extends BaseController
 {
   public function index()
   {
+    $userLevel = $this->session->user_level;
+    $data['userLevel'] = $userLevel;
     $data['pageTitle'] = 'Forgot Password';
     $data['userName'] = $this->session->user_username;
     return view('forgot-password', $data);

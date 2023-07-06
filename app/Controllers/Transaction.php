@@ -22,7 +22,8 @@ class Transaction extends BaseController
         $data['pageTitle'] = 'Reports';
         $data['result'] = $resultsProduct;
         $data['resultReceipts'] = $resultsReceipts;
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         return view('transaction', $data);
     }
 

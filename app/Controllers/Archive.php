@@ -44,7 +44,8 @@ class Archive extends BaseController
         $inventoryModel = new InventoryModel();
         $resultInventory = $inventoryModel->getProductsWithInventoryAndProductsArchived();
         $data["resultInventory"] = $resultInventory;
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         $data["viewSupplier"] = $resultSupplier2;
         $data["viewCategory"] = $resultViewCategory;
         $data["resultProducts"] = $resultProducts;

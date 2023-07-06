@@ -8,5 +8,5 @@ class AccountModel extends Model
 {
     protected $table = 'tblaccounts';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['username', 'password','userLevel','otp','email'];
+    protected $allowedFields = ['username', 'password', 'userLevel', 'otp', 'email', 'status', 'firstTimeLogin'];
 }

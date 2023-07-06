@@ -22,7 +22,8 @@ class Products extends BaseController
         }
 
         $permissionChecker = new \App\Libraries\PermissionChecker();
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         $categoryModel->select('*');
         $categoryModel->where('isCategoryArchived', 0);
         $query = $categoryModel->get();

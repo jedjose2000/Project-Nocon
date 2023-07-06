@@ -27,7 +27,8 @@ class Category extends BaseController
 
         // Pass the permissionChecker object to the view
         $data['permissionChecker'] = $permissionChecker;
-    
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
 
         return view('category', $data);
     }

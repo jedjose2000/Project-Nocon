@@ -28,7 +28,8 @@ class PosTeller extends BaseController
 
 
 
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         $permissionChecker = new \App\Libraries\PermissionChecker();
         $data['permissionChecker'] = $permissionChecker;
         $data['pageTitle'] = 'POS Teller';

@@ -34,11 +34,19 @@ class Login extends BaseController
     
                 return redirect()->to("login");
             }
+
+            if($user['firstTimeLogin'] == 0){
+                $this->session->set("userEmail", $user["email"]);
+                $this->session->set("user_id", $user["id"]); //registers user in session
+                $this->session->set("user_username", $user["username"]);
+                $this->session->set("user_level", $user["userLevel"]); 
+                return redirect()->to("dashboard");
+            }else{
+                $user_id = $user["id"];
+                return redirect()->to("firstTimeLogin")->with("user_id", $user_id);
+            }
     
-            $this->session->set("user_id", $user["id"]); //registers user in session
-            $this->session->set("user_username", $user["username"]);
-            $this->session->set("user_level", $user["userLevel"]); 
-            return redirect()->to("dashboard");
+ 
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
