@@ -83,6 +83,7 @@ class Inventory extends BaseController
                 'productID' => $productId,
                 'totalQuantity' => $quantity,
                 'expirationDate' => $expirationDate ?? '',
+                'status' => 'In Stock',
             ];
 
             foreach ($data as $field => $value) {
