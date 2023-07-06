@@ -86,12 +86,19 @@
 
         $(document).ready(function () {
             window.localStorage.setItem('show_popup_forgot', 'false');
+            window.localStorage.setItem('show_popup_firstTime', 'false');
         });
 
 
         if (window.localStorage.getItem('show_popup_forgot') == 'true') {
             alertify.success('Password have been successfully updated');
             window.localStorage.setItem('show_popup_forgot', 'false');
+        }
+
+        
+        if (window.localStorage.getItem('show_popup_firstTime') == 'true') {
+            alertify.success('Password have been successfully updated');
+            window.localStorage.setItem('show_popup_firstTime', 'false');
         }
     </script>
 </body>

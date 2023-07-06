@@ -21,7 +21,8 @@ class Supplier extends BaseController
         $result = $query->getResult();
         $data["result"] = $result;
         $data['permissionChecker'] = $permissionChecker;
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         return view('supplier',$data);
     }
 

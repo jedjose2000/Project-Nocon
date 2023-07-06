@@ -125,8 +125,48 @@
   margin: 0; /* Remove any margin */
 }
 
+.user-active {
+  display: none;
+}
 
+.condition-icon::before {
+  color: red;
+}
 
+.condition.checked .condition-icon::before {
+  content: "\2713";
+  color: green;
+}
+
+.condition-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: red;
+}
+
+.condition.checked .condition-icon {
+  display: inline-block;
+  color: green;
+}
+
+.condition-label {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: red;
+}
+
+div label span.required {
+  color: red;
+}
+label.error {
+  display: block;
+  float: none;
+  color: red;
+  padding-left: .5em;
+}
 
 .receipt-input input[type=text] {
   background: none;

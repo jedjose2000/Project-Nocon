@@ -100,9 +100,21 @@ $routes->post('/deleteAllProducts', 'Archive::deleteAllProducts');
 $routes->post('/restoreAllInventory', 'Archive::restoreAllInventory');
 $routes->post('/deleteAllInventory', 'Archive::deleteAllInventory');
 
+$routes->get('/forgot-password', 'ForgotPassword::index');
+$routes->post('/checkEmail', 'ForgotPassword::checkEmail');
+$routes->post('/checkOTP', 'ForgotPassword::checkOTP');
+$routes->post('/sendOTPForgot', 'ForgotPassword::sendOTP');
+$routes->post('/forChangePassword', 'ForgotPassword::changePassword');
+$routes->post('/changePass', 'ChangePassword::changePassword');
 
 
-
+$routes->post('/checkIfUsernameExists', 'CreateAccount::checkUsernameExists');
+$routes->post('/checkUsernameExists', 'CreateAccount::checkUsername');
+$routes->post('/checkEmailSendOTP', 'CreateAccount::sendOTP');
+$routes->post('/checkOTPCorrect', 'CreateAccount::checkOTPCorrect');
+$routes->post('/createAccount', 'CreateAccount::createAccount');
+$routes->get('/firstTimeLogin', 'FirstTime::index');
+$routes->post('/forFirstTimeChangePassword', 'FirstTime::forFirstTimeChangePassword');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

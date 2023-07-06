@@ -35,7 +35,8 @@ class Inventory extends BaseController
         $results = $inventoryModel->getProductsWithInventoryAndProducts();
         $data["result"] = $results;
 
-
+        $userLevel = $this->session->user_level;
+        $data['userLevel'] = $userLevel;
         $permissionChecker = new \App\Libraries\PermissionChecker();
         $data['permissionChecker'] = $permissionChecker;
         $data['product'] = $result;
