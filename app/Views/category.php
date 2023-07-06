@@ -334,7 +334,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="hdnCategoryId" id="hdnCategoryId" />
+                    <input type="hidden" name="hdnCategoryId" id="hdnCategoryId" />
                     <p>Do you want to archive the selected category?</p>
                 </div>
                 <div class="modal-footer">

@@ -89,6 +89,20 @@ $routes->post('/sendOTPForgot', 'ForgotPassword::sendOTP');
 $routes->post('/checkOTP', 'ForgotPassword::checkOTP');
 $routes->post('/forChangePassword', 'ForgotPassword::changePassword');
 
+
+$routes->get('/archive', 'Archive::index');
+$routes->post('/restoreAllCategory', 'Archive::restoreAllCategory');
+$routes->post('/deleteAllCategory', 'Archive::deleteAllCategory');
+$routes->post('/restoreAllSupplier', 'Archive::restoreAllSupplier');
+$routes->post('/deleteAllSuppliers', 'Archive::deleteAllSuppliers');
+$routes->post('/restoreAllProducts', 'Archive::restoreAllProducts');
+$routes->post('/deleteAllProducts', 'Archive::deleteAllProducts');
+$routes->post('/restoreAllInventory', 'Archive::restoreAllInventory');
+$routes->post('/deleteAllInventory', 'Archive::deleteAllInventory');
+
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

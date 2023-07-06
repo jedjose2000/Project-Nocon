@@ -25,6 +25,22 @@ class InventoryModel extends Model
         return $result;
     }
 
+    public function getProductsWithInventoryAndProductsArchived()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblproducts');
+        $builder->select('tblproducts.*, tblinventory.*,
+        (tblinventory.totalQuantity - tblinventory.sold - tblinventory.damaged - tblinventory.lost - tblinventory.expired + tblinventory.returned) AS totalStockIn');
+        $builder->join('tblinventory', 'tblinventory.productID = tblproducts.productId');
+        $builder->where('tblproducts.isProductArchived', 0);
+        $builder->where('tblinventory.isInventoryArchived', 1);
+        $builder->groupBy('tblproducts.productId');
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
+
+
 
     public function getProductsWithStockIn($productId)
     {

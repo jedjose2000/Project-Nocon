@@ -59,6 +59,8 @@ body {
   position: absolute;
   top: 115px;
   left: 0;
+  width:30%;
+  right: -345px;
 }
 @keyframes faded {
   from {

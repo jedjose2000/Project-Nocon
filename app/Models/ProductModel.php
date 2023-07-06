@@ -19,7 +19,6 @@ class ProductModel extends Model
         $builder->where('tblproducts.isProductArchived', 0);
         $query = $builder->get();
         $result = $query->getResult();
-
         return $result;
     }
     
@@ -45,6 +44,18 @@ class ProductModel extends Model
         return $result->totalStockIn;
     }
     
+
+    public function getProductsWithSupplierAndCategoryRestore()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tblproducts');
+        $builder->select('*');
+        $builder->join('tblcategory', 'tblcategory.categoryId = tblproducts.categoryID');
+        $builder->where('tblproducts.isProductArchived', 1);
+        $query = $builder->get();
+        $result = $query->getResult();
+        return $result;
+    }
     
     
     

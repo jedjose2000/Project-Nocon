@@ -357,7 +357,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="hdnAllInventoryId" id="hdnAllInventoryId" />
+                    <input type="hidden" name="hdnAllInventoryId" id="hdnAllInventoryId" />
                     <p>Do you want to archive the selected item?</p>
                 </div>
                 <div class="modal-footer">

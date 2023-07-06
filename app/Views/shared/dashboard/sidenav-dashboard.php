@@ -52,6 +52,12 @@
             <p>Reports</p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo base_url('archive'); ?>" class="nav-link ">
+            <i class="nav-icon fa-solid fa-file-lines"></i>
+            <p>Archive</p>
+          </a>
+        </li>
       </ul>
     </nav>
 
