@@ -54,7 +54,7 @@ class CreateAccount extends BaseController
             'to' => '["' . $checkEmail . '"]',
             'subject' => 'Verify your email',
             'text' => 'Your OTP number is ' . $otp,
-            'html' => '<h1>Your OTP number is ' . $otp . '</h1>'
+            'html' => 'To verify your email, please input this OTP number: <br> <h1>' . $otp . '</h1>'
         );
         $jsonData = json_encode($payload);
 
