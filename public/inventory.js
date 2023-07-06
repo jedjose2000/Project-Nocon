@@ -531,9 +531,6 @@ $('body').on('click', '.btnViewHistory', function () {
                 order: [[0, 'desc']]
             });
 
-
-
-
             let stockOutDataSet = [];
             res.resultStockOut.forEach(element => {
                 let stockOutDate = new Date(element.stockOutDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
