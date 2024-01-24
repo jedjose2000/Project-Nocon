@@ -46,11 +46,11 @@ class CreateAccount extends BaseController
         $this->session->set('createOTP', $otp);
         $this->session->set('checkEmail', $checkEmail);
 
-
-
+        $fromEmail = getenv('SENDER_EMAIL');
+        
         $client = \Config\Services::curlrequest();
         $payload = array(
-            'from' => 'jedlester42@gmail.com',
+            'from' => $fromEmail,
             'to' => '["' . $checkEmail . '"]',
             'subject' => 'Verify your email',
             'text' => 'Your OTP number is ' . $otp,

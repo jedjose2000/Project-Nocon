@@ -32,7 +32,7 @@
 
   <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
 
-  <link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 

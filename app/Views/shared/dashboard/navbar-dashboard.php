@@ -337,7 +337,9 @@
           checkEmail
         },
         success: function (data) {
+          console.log(data);
           if (data === true) {
+            
             alertify.success('An OTP has been sent into the email address connected to this account');
             if (current != 0)
               return;
