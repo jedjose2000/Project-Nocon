@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Bevan&family=Bree+Serif&family=Nunito&family=Quicksand&family=Red+Hat+Text:wght@500&family=Roboto+Slab:wght@900&family=Tilt+Neon&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap");
+
+:root {
+  --main-color: #e2a130;
+  --darker-main: #FF7A00;
+  --bg-color: rgb(240, 184, 121);
+  --head-font: 'Tilt Neon', cursive;
+  --title-font: 'Red Hat Text', sans-serif;
+  --title-font2: 'Quicksand', sans-serif;
+  --logo-font: 'Bree Serif', serif;
+  --logo-font2: 'Bevan', cursive;
+  --logo-bg: #293c50dc;
+  --logo-color: #fd8311;
+  --main-font: "Roboto", sans-serif;
+}
+
+*{ 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg,#a4ff92, rgb(248, 230, 218));
+}
+
+.main-container {
+  position: relative;
+}
+
+.image-container {
+  background: rgb(255, 102, 0);
+  border-radius: 4px 0 0 4px;
+}
+
+.forgot-password{
+  color: #1d1d1d !important;
+  transition: color .2s ease;
+}
+
+.forgot-password:hover{
+  color:rgb(255, 102, 0) !important;
+}
+
+
+
+
+.alert-danger {
+  position: relative;
+  animation: faded 7s forwards;
+}
+
+.login-error {
+  position: absolute;
+  top: 115px;
+  left: 0;
+  width:30%;
+  right: -345px;
+}
+@keyframes faded {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.forgot-pass {
+  font-family: var(--main-font);
+  font-weight: 500;
+  /* color: #1f1f1f; */
+}
+
+/* .forgot-pass:hover {
+  color: #1f1f1f;
+} */
+
+
+
+
+/* forgot password style */
+
+
+
+div.forgot {
+  position: relative;
+}
+
+
+.forgot-pass:hover::after {
+  position: absolute;
+  content:'';
+  top: 26px;
+  right: 0;
+  height: 5px;
+  width: 120px;
+  background: var(--darker-main);
+  animation: forgot 0.5s ease;
+}
+
+
+
+@keyframes forgot{
+  from {width: 0px;}
+  to {width: 120px;}
+}
+
+
+
+
+
+
+.wrapper {
+  background: #fff;
+  max-width: 500px;
+  position: relative;
+  background: rgba(255, 255, 255, .90);
+  border-radius: 7px;
+  box-shadow: 1px 1px 18px rgba(0, 0, 0, 0.25);
+}
+
+
+.error {
+  color: red;
+}
+
+.manual-error {
+  display: none;
+}
+
+.get-code {
+  position: relative;
+}
+
+.getcode-wrapper:hover::after {
+  position: absolute;
+  content:'';
+  height: 5px;
+  width: 65px;
+  top: 23px;
+  right: 0;
+  background: var(--darker-main);
+  animation: get 0.5s ease;
+
+}
+
+
+#btnGetCode {
+  font-family: var(--main-font);
+  background: none;
+  color: #4576FD;
+  font-weight: 500;
+}
+
+#btnGetCode:hover {
+  color: #1D5BCA;
+}
+
+@keyframes get{
+  from {width: 0px;}
+  to {width: 65px;}
+}
+
+.return {
+  position: absolute;
+
+}
+
+.a-return {
+  font-size: 24px;
+  color: var(--darker-main);
+}
+
+.a-return:hover {
+  color: var(--darker-main);
+  opacity: 0.8;
+}
+
+.btn-send {
+  font-size: 14px;
+}
+
+
+.condition-icon::before {
+  color: red;
+}
+
+.condition.checked .condition-icon::before {
+  content: "\2713";
+  color: green;
+}
+
+.condition-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: red;
+}
+
+.condition.checked .condition-icon {
+  display: inline-block;
+  color: green;
+}
+
+.condition-label {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: red;
+}
