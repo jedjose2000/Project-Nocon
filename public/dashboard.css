@@ -11,3 +11,183 @@
   margin-top: 0.125rem;
   left: -79px;
 }
+
+.category-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.category-description-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.supplier-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.supplier-phone-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.supplier-email-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.error {
+  font-weight: normal !important;
+}
+
+.product-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-buyprice-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-sellprice-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-clq-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.product-category-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-quantity-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-expiration-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.inventory-supplier-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.payment-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.change-error {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+.chart-container {
+  width: 1000px; /* Set the desired width of the chart container */
+  height: 500px; /* Calculate the height based on the viewport height minus a fixed value (e.g., 100px for header) */
+  margin-right: auto; /* Push the chart container to the right */
+  margin-left: 0; /* Remove any left margin */
+}
+
+#salesChart {
+  width: 100%; /* Make the canvas fill the entire chart container */
+  height: 100%; /* Make the canvas fill the entire chart container */
+  margin: 0; /* Remove any margin */
+}
+
+.user-active {
+  display: none;
+}
+
+.condition-icon::before {
+  color: red;
+}
+
+.condition.checked .condition-icon::before {
+  content: "\2713";
+  color: green;
+}
+
+.condition-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: red;
+}
+
+.condition.checked .condition-icon {
+  display: inline-block;
+  color: green;
+}
+
+.condition-label {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: red;
+}
+
+div label span.required {
+  color: red;
+}
+label.error {
+  display: block;
+  float: none;
+  color: red;
+  padding-left: .5em;
+}
+
+.receipt-input input[type=text] {
+  background: none;
+  margin-left: -10px;
+  border: none;
+  text-decoration: underline;
+}
+
+#productReceiptTable_length {
+  display: none;
+}
+
+
+#productReceiptTable_paginate {
+  display: none;
+}
+
+#productReceiptTable_filter {
+  display: none;
+}
+
+#productReceiptTable_info {
+  display: none;
+}

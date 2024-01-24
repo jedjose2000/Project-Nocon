@@ -26,145 +26,29 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background:  linear-gradient(180deg, rgba(255, 205, 69, 0.493), var(--main-color));
-
+  background: linear-gradient(90deg,#a4ff92, rgb(248, 230, 218));
 }
 
-.container {
-  background: #fff;
-  height: 600px;
+.main-container {
   position: relative;
-  background: rgba(255, 255, 255, .90);
-
-}
-.container:not(.card-left, .card-right) {
-  border-radius: 7px;
-  box-shadow: 1px 1px 18px rgba(0, 0, 0, 0.25);
 }
 
-.card-left {
-  position: relative;
-
+.image-container {
+  background: rgb(255, 102, 0);
+  border-radius: 4px 0 0 4px;
 }
 
-h1.sign-up {
-  color: #1f1f1f;
+.forgot-password{
+  color: #1d1d1d !important;
+  transition: color .2s ease;
 }
 
-.card-left-footer {
-  display: flex; 
-  justify-content: center;
-}
-
-.btn-login {
-  padding: 8px 35px;
-  color: var(--darker-main);
-  border: 2px solid var(--darker-main);
-  transition: all .2s;
-  background: rgba(255, 255, 255, .10);
-}
-
-.btn-login:hover {
-  color: #fff;
-  background: var(--darker-main);
-}
-
-.form-check-input[type=checkbox] {
-  border-color: var(--darker-main);
-}
-
-.form-check-input[type=checkbox]:checked,.form-check-input[type=checkbox]:focus  {
-  background-color: var(--darker-main);
-  border: var(--darker-main);
-}
-
-input[type="text"], input[type="password"] {
-  border: 2px solid rgb(128, 128, 128);
-  transition: border 0.2s;
-  background: rgba(255, 255, 255, 0.2);
-
-}
-
-input[type="text"]:focus, input[type="password"]:focus {
-  box-shadow: none;
-  border: 2px solid var(--darker-main);
+.forgot-password:hover{
+  color:rgb(255, 102, 0) !important;
 }
 
 
 
-div.card-right {
-  position: relative;
-  background: var(--logo-bg);
-  border-radius: 0px 7px 7px 0px;
-}
-
-.right-top, .right-bottom {
-  height: 50%;
-}
-
-label.form-label {
-  font-size: 1.1rem;
-  color: #1f1f1f;
-}
-
-label.form-check-label {
-  color: #1f1f1f;
-}
-
-.card-left-header {
-  margin-bottom: 70px;
-}
-
-div.title {
-  background: var(--logo-color);
-}
-
-h2.title-h2 {
-  color: #fff;
-  font-family: var(--title-font2);
-  letter-spacing: 10px;
-}
-
-h1.logo-bh {
-  position: relative;
-  color: var(--logo-color);
-  font-family: var(--logo-font2);
-  font-size: 9rem;
-  letter-spacing: -5px;
-  font-weight: 500;
-}
-
-.cross {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  top: 50;
-  left: 50;
-  transform: translate(-26px, 45px);
-  animation: rotation 2s ease;
-}
-
-.move {
-  animation: rotate 2s ease;
-}
-
-
-.p-title-date {
-  color: var(--logo-color);
-  font-size: 1.3rem;
-  font-weight: 500;
-}
-
-
-@keyframes rotation {
-  from {transform: translate(-26px, 45px) rotate(0deg);}
-  to {transform: translate(-26px, 45px) rotate(360deg);} 
-}
-
-@keyframes rotate {
-  from {transform: translate(-26px, 45px) rotate(0deg);}
-  to {transform: translate(-26px, 45px) rotate(360deg);} 
-}
 
 .alert-danger {
   position: relative;
@@ -175,6 +59,8 @@ h1.logo-bh {
   position: absolute;
   top: 115px;
   left: 0;
+  width:30%;
+  right: -345px;
 }
 @keyframes faded {
   from {
@@ -190,12 +76,12 @@ h1.logo-bh {
 .forgot-pass {
   font-family: var(--main-font);
   font-weight: 500;
-  color: #1f1f1f;
+  /* color: #1f1f1f; */
 }
 
-.forgot-pass:hover {
+/* .forgot-pass:hover {
   color: #1f1f1f;
-}
+} */
 
 
 
@@ -270,8 +156,12 @@ div.forgot {
 #btnGetCode {
   font-family: var(--main-font);
   background: none;
-  color: #1f1f1f;
+  color: #4576FD;
   font-weight: 500;
+}
+
+#btnGetCode:hover {
+  color: #1D5BCA;
 }
 
 @keyframes get{
@@ -296,4 +186,34 @@ div.forgot {
 
 .btn-send {
   font-size: 14px;
+}
+
+
+.condition-icon::before {
+  color: red;
+}
+
+.condition.checked .condition-icon::before {
+  content: "\2713";
+  color: green;
+}
+
+.condition-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: red;
+}
+
+.condition.checked .condition-icon {
+  display: inline-block;
+  color: green;
+}
+
+.condition-label {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: red;
 }
